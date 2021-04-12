@@ -9,8 +9,10 @@ default: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+bootstrap: bootstrap-terraform get-dependencies
+
 .PHONY: bootstrap
-bootstrap: ## Bootstrap local environment for first use
+bootstrap-terraform: ## Bootstrap local environment for first use
 	@make git-hooks
 	pip3 install --user Jinja2 PyYAML boto3
 	@{ \
@@ -47,3 +49,12 @@ terraform-workspace-new: ## Creates new Terraform workspace with Concourse remot
 		fly -t aws-concourse execute --config create-workspace.yml --input repo=. -v workspace="$$i" ; \
 	done
 	rm jeff.tf
+
+.PHONY: get-dependencies
+get-dependencies: ## Get dependencies that are normally managed by pipeline
+	@{ \
+		for github_repository in emr-launcher; do \
+			export REPO=$${github_repository}; \
+			./get_lambda_release.sh; \
+		done \
+	}

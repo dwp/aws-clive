@@ -47,7 +47,7 @@ resource "aws_cloudwatch_event_rule" "aws_clive_terminated" {
 EOF
 }
 
-resource "aws_cloudwatch_event_rule" "aws_clivesuccess" {
+resource "aws_cloudwatch_event_rule" "aws_clive_success" {
   name          = "aws_clive_success"
   description   = "checks that all steps complete"
   event_pattern = <<EOF
