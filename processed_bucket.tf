@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "aws_emr_template_repository_write" {
+data "aws_iam_policy_document" "aws_clive_write" {
   statement {
     effect = "Allow"
 
@@ -43,9 +43,9 @@ data "aws_iam_policy_document" "aws_emr_template_repository_write" {
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_read_write_processed_bucket" {
+resource "aws_iam_policy" "aws_clive_read_write_processed_bucket" {
   name        = "ReadWriteAccessToProcessedBucket"
   description = "Allow read and write access to the processed bucket"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_write.json
+  policy      = data.aws_iam_policy_document.aws_clive_write.json
 }
 

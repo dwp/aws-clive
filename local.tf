@@ -1,5 +1,5 @@
 locals {
-  emr_cluster_name = "aws-emr-template-repository"
+  emr_cluster_name = "aws-clive"
   common_emr_tags = merge(
     local.common_tags,
     {
@@ -51,7 +51,7 @@ locals {
     production  = "INFO"
   }
 
-  aws_emr_template_repository_version = {
+  aws_clive_version = {
     development = "0.0.1"
     qa          = "0.0.1"
     integration = "0.0.1"
@@ -76,7 +76,7 @@ locals {
         LocalDiskEncryptionConfiguration = {
           EnableEbsEncryption       = true
           EncryptionKeyProviderType = "AwsKms"
-          AwsKmsKey                 = aws_kms_key.aws_emr_template_repository_ebs_cmk.arn
+          AwsKmsKey                 = aws_kms_key.aws_clive_ebs_cmk.arn
         }
       }
     }
@@ -98,12 +98,12 @@ locals {
     production  = "TERMINATE_CLUSTER"
   }
 
-  cw_agent_namespace                   = "/app/aws_emr_template_repository"
-  cw_agent_log_group_name              = "/app/aws_emr_template_repository"
-  cw_agent_bootstrap_loggrp_name       = "/app/aws_emr_template_repository/bootstrap_actions"
-  cw_agent_steps_loggrp_name           = "/app/aws_emr_template_repository/step_logs"
+  cw_agent_namespace                   = "/app/aws_clive"
+  cw_agent_log_group_name              = "/app/aws_clive"
+  cw_agent_bootstrap_loggrp_name       = "/app/aws_clive/bootstrap_actions"
+  cw_agent_steps_loggrp_name           = "/app/aws_clive/step_logs"
   cw_agent_metrics_collection_interval = 60
 
-  s3_log_prefix = "emr/aws_emr_template_repository"
+  s3_log_prefix = "emr/aws_clive"
 
 }

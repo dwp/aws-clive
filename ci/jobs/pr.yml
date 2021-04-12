@@ -1,29 +1,29 @@
 jobs:
-  - name: aws-emr-template-repository-pr
+  - name: aws-clive-pr
     plan:
-      - get: aws-emr-template-repository-pr
+      - get: aws-clive-pr
         trigger: true
         version: every
-      - put: aws-emr-template-repository-pr
+      - put: aws-clive-pr
         params:
-          path: aws-emr-template-repository-pr
+          path: aws-clive-pr
           status: pending
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
-          aws-emr-template-repository: aws-emr-template-repository-pr
+          aws-clive: aws-clive-pr
       - .: (( inject meta.plan.terraform-plan ))
         input_mapping:
-          aws-emr-template-repository: aws-emr-template-repository-pr
+          aws-clive: aws-clive-pr
         params:
           TF_WORKSPACE: "qa"
           DETAILED_EXITCODE: ""
         on_failure:
-          put: aws-emr-template-repository-pr
+          put: aws-clive-pr
           params:
-            path: aws-emr-template-repository-pr
+            path: aws-clive-pr
             status: failure
         on_success:
-          put: aws-emr-template-repository-pr
+          put: aws-clive-pr
           params:
-            path: aws-emr-template-repository-pr
+            path: aws-clive-pr
             status: success

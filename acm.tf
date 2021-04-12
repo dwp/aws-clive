@@ -1,13 +1,13 @@
-resource "aws_acm_certificate" "aws_emr_template_repository" {
+resource "aws_acm_certificate" "aws_clive" {
   certificate_authority_arn = data.terraform_remote_state.aws_certificate_authority.outputs.root_ca.arn
-  domain_name               = "aws-emr-template-repository.${local.env_prefix[local.environment]}${local.dataworks_domain_name}"
+  domain_name               = "aws-clive.${local.env_prefix[local.environment]}${local.dataworks_domain_name}"
 
   options {
     certificate_transparency_logging_preference = "ENABLED"
   }
 }
 
-data "aws_iam_policy_document" "aws_emr_template_repository_acm" {
+data "aws_iam_policy_document" "aws_clive_acm" {
   statement {
     effect = "Allow"
 
@@ -16,14 +16,14 @@ data "aws_iam_policy_document" "aws_emr_template_repository_acm" {
     ]
 
     resources = [
-      aws_acm_certificate.aws_emr_template_repository.arn
+      aws_acm_certificate.aws_clive.arn
     ]
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_acm" {
+resource "aws_iam_policy" "aws_clive_acm" {
   name        = "ACMExportAWSEMRtemplateRepositoryCert"
-  description = "Allow export of aws-emr-template-repository certificate"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_acm.json
+  description = "Allow export of aws-clive certificate"
+  policy      = data.aws_iam_policy_document.aws_clive_acm.json
 }
 

@@ -1,4 +1,4 @@
-# aws-emr-template-repository
+# aws-clive
 
 ## A template repository for building EMR cluster in AWS
 

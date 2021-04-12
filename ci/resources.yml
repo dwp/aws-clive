@@ -1,17 +1,17 @@
 resources:
-  - name: aws-emr-template-repository-pr
+  - name: aws-clive-pr
     type: pull-request
     source:
-      repository: dwp/aws-emr-template-repository
+      repository: dwp/aws-clive
       access_token: ((dataworks-secrets.concourse_github_pat))
     webhook_token: ((dataworks.concourse_github_webhook_token))
     check_every: 720h
 
-  - name: aws-emr-template-repository
+  - name: aws-clive
     type: git
     source:
       branch: master
-      uri: https://github.com/dwp/aws-emr-template-repository.git
+      uri: https://github.com/dwp/aws-clive.git
       access_token: ((dataworks-secrets.concourse_github_pat))
     webhook_token: ((dataworks.concourse_github_webhook_token))
     check_every: 720h

@@ -9,7 +9,7 @@ log_adg_message() {
     component="${2}"
     process_id="${3}"
 
-    application="aws_emr_template_repository"
+    application="aws_clive"
 
     app_version="NOT_SET"
     if [ -f "/opt/emr/version" ]; then

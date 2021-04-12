@@ -11,39 +11,39 @@ data "aws_iam_policy_document" "ec2_assume_role" {
   }
 }
 
-resource "aws_iam_role" "aws_emr_template_repository" {
-  name               = "aws_emr_template_repository"
+resource "aws_iam_role" "aws_clive" {
+  name               = "aws_clive"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
   tags               = local.tags
 }
 
-resource "aws_iam_instance_profile" "aws_emr_template_repository" {
-  name = "aws_emr_template_repository"
-  role = aws_iam_role.aws_emr_template_repository.id
+resource "aws_iam_instance_profile" "aws_clive" {
+  name = "aws_clive"
+  role = aws_iam_role.aws_clive.id
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
-  role       = aws_iam_role.aws_emr_template_repository.name
+  role       = aws_iam_role.aws_clive.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "amazon_ssm_managed_instance_core" {
-  role       = aws_iam_role.aws_emr_template_repository.name
+  role       = aws_iam_role.aws_clive.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_ebs_cmk" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_ebs_cmk_encrypt.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_ebs_cmk" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_ebs_cmk_encrypt.arn
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_acm" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_acm.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_acm" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_acm.arn
 }
 
 
-data "aws_iam_policy_document" "aws_emr_template_repository_write_logs" {
+data "aws_iam_policy_document" "aws_clive_write_logs" {
   statement {
     effect = "Allow"
 
@@ -72,18 +72,18 @@ data "aws_iam_policy_document" "aws_emr_template_repository_write_logs" {
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_write_logs" {
+resource "aws_iam_policy" "aws_clive_write_logs" {
   name        = "AwsEmrTemplateRepositoryWriteLogs"
-  description = "Allow writing of aws_emr_template_repository logs"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_write_logs.json
+  description = "Allow writing of aws_clive logs"
+  policy      = data.aws_iam_policy_document.aws_clive_write_logs.json
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_write_logs" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_write_logs.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_write_logs" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_write_logs.arn
 }
 
-data "aws_iam_policy_document" "aws_emr_template_repository_read_config" {
+data "aws_iam_policy_document" "aws_clive_read_config" {
   statement {
     effect = "Allow"
 
@@ -123,18 +123,18 @@ data "aws_iam_policy_document" "aws_emr_template_repository_read_config" {
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_read_config" {
+resource "aws_iam_policy" "aws_clive_read_config" {
   name        = "AwsEmrTemplateRepositoryReadConfig"
-  description = "Allow reading of aws_emr_template_repository config files"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_read_config.json
+  description = "Allow reading of aws_clive config files"
+  policy      = data.aws_iam_policy_document.aws_clive_read_config.json
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_read_config" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_read_config.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_read_config" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_read_config.arn
 }
 
-data "aws_iam_policy_document" "aws_emr_template_repository_read_artefacts" {
+data "aws_iam_policy_document" "aws_clive_read_artefacts" {
   statement {
     effect = "Allow"
 
@@ -174,18 +174,18 @@ data "aws_iam_policy_document" "aws_emr_template_repository_read_artefacts" {
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_read_artefacts" {
+resource "aws_iam_policy" "aws_clive_read_artefacts" {
   name        = "AwsEmrTemplateRepositoryReadArtefacts"
-  description = "Allow reading of aws_emr_template_repository software artefacts"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_read_artefacts.json
+  description = "Allow reading of aws_clive software artefacts"
+  policy      = data.aws_iam_policy_document.aws_clive_read_artefacts.json
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_read_artefacts" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_read_artefacts.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_read_artefacts" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_read_artefacts.arn
 }
 
-data "aws_iam_policy_document" "aws_emr_template_repository_write_dynamodb" {
+data "aws_iam_policy_document" "aws_clive_write_dynamodb" {
   statement {
     effect = "Allow"
 
@@ -199,7 +199,7 @@ data "aws_iam_policy_document" "aws_emr_template_repository_write_dynamodb" {
   }
 }
 
-data "aws_iam_policy_document" "aws_emr_template_repository_metadata_change" {
+data "aws_iam_policy_document" "aws_clive_metadata_change" {
   statement {
     effect = "Allow"
 
@@ -214,13 +214,13 @@ data "aws_iam_policy_document" "aws_emr_template_repository_metadata_change" {
   }
 }
 
-resource "aws_iam_policy" "aws_emr_template_repository_metadata_change" {
+resource "aws_iam_policy" "aws_clive_metadata_change" {
   name        = "AwsEmrTemplateRepositoryMetadataOptions"
   description = "Allow editing of Metadata Options"
-  policy      = data.aws_iam_policy_document.aws_emr_template_repository_metadata_change.json
+  policy      = data.aws_iam_policy_document.aws_clive_metadata_change.json
 }
 
-resource "aws_iam_role_policy_attachment" "aws_emr_template_repository_metadata_change" {
-  role       = aws_iam_role.aws_emr_template_repository.name
-  policy_arn = aws_iam_policy.aws_emr_template_repository_metadata_change.arn
+resource "aws_iam_role_policy_attachment" "aws_clive_metadata_change" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_metadata_change.arn
 }
