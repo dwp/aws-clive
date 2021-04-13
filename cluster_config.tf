@@ -35,7 +35,7 @@ resource "aws_s3_bucket_object" "instances" {
       subnet_id = (
         local.emr_capacity_reservation_preference[local.environment] == "none" ?
         data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets.*.availability_zone, local.emr_subnet_non_capacity_reserved_environments)].id :
-        data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.live_subnet.subnets.*.availability_zone, data.terraform_remote_state.common.outputs.ec2_capacity_reservations.emr_m5_16_x_large_2a.availability_zone)].id
+        data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets.*.availability_zone, data.terraform_remote_state.common.outputs.ec2_capacity_reservations.emr_m5_16_x_large_2a.availability_zone)].id
       )
       master_sg                           = aws_security_group.aws_clive_master.id
       slave_sg                            = aws_security_group.aws_clive_slave.id
