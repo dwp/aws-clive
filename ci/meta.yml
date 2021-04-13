@@ -15,6 +15,7 @@ meta:
           TF_VAR_costcode: ((dataworks.costcode))
     terraform-bootstrap:
       task: terraform-bootstrap
+      .: (( inject meta.plan.terraform-common-config ))
       config:
         platform: linux
         image_resource:
@@ -29,12 +30,14 @@ meta:
             - -exc
             - |
               python bootstrap_terraform.py
-              cp terraform.tf ../terraform-bootstrap
+              sed -i '/^assume_role/ d' terraform.tfvars
+              cp terraform.tf ../terraform-config
+              cp terraform.tfvars ../terraform-config
           dir: aws-clive
         inputs:
           - name: aws-clive
         outputs:
-          - name: terraform-bootstrap
+          - name: terraform-config
       params:
         AWS_REGION: eu-west-2
     terraform-apply:
