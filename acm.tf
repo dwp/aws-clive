@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "aws_clive_acm" {
 }
 
 resource "aws_iam_policy" "aws_clive_acm" {
-  name        = "ACMExportAWSEMRtemplateRepositoryCert"
+  name        = "ACMExport-aws-clive-Cert"
   description = "Allow export of aws-clive certificate"
   policy      = data.aws_iam_policy_document.aws_clive_acm.json
 }

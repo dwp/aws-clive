@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "aws_clive_write" {
 }
 
 resource "aws_iam_policy" "aws_clive_read_write_processed_bucket" {
-  name        = "ReadWriteAccessToProcessedBucket"
+  name        = "aws-clive-ReadWriteAccessToProcessedBucket"
   description = "Allow read and write access to the processed bucket"
   policy      = data.aws_iam_policy_document.aws_clive_write.json
 }

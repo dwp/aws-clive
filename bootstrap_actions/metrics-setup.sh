@@ -5,7 +5,7 @@ set -euo pipefail
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_adg_message "$1" "metrics-setup.sh" "$$" "Running as: $USER"
+        log_aws_clive_message "$1" "metrics-setup.sh" "$$" "Running as: $USER"
     }
 
     log_wrapper_message "Pulling files from S3"

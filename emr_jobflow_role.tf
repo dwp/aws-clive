@@ -42,6 +42,88 @@ resource "aws_iam_role_policy_attachment" "aws_clive_acm" {
   policy_arn = aws_iam_policy.aws_clive_acm.arn
 }
 
+data "aws_iam_policy_document" "aws_clive_extra_ssm_properties" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudwatch:PutMetricData",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeInstanceStatus",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ds:CreateComputer",
+      "ds:DescribeDirectories",
+    ]
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+      "logs:PutLogEvents",
+    ]
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetBucketLocation",
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      "arn:aws:s3:::eu-west-2.elasticmapreduce",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::eu-west-2.elasticmapreduce/libs/script-runner/*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "aws_clive_extra_ssm_properties" {
+  name        = "AwsCliveExtraSSM"
+  description = "Additional properties to allow for SSM and writing logs"
+  policy      = data.aws_iam_policy_document.aws_clive_extra_ssm_properties.json
+}
+
+resource "aws_iam_role_policy_attachment" "aws_clive_extra_ssm_properties" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_extra_ssm_properties.arn
+}
 
 data "aws_iam_policy_document" "aws_clive_write_logs" {
   statement {
@@ -73,7 +155,7 @@ data "aws_iam_policy_document" "aws_clive_write_logs" {
 }
 
 resource "aws_iam_policy" "aws_clive_write_logs" {
-  name        = "AwsEmrTemplateRepositoryWriteLogs"
+  name        = "aws-clive-WriteLogs"
   description = "Allow writing of aws_clive logs"
   policy      = data.aws_iam_policy_document.aws_clive_write_logs.json
 }
@@ -124,7 +206,7 @@ data "aws_iam_policy_document" "aws_clive_read_config" {
 }
 
 resource "aws_iam_policy" "aws_clive_read_config" {
-  name        = "AwsEmrTemplateRepositoryReadConfig"
+  name        = "aws-clive-ReadConfig"
   description = "Allow reading of aws_clive config files"
   policy      = data.aws_iam_policy_document.aws_clive_read_config.json
 }
@@ -175,7 +257,7 @@ data "aws_iam_policy_document" "aws_clive_read_artefacts" {
 }
 
 resource "aws_iam_policy" "aws_clive_read_artefacts" {
-  name        = "AwsEmrTemplateRepositoryReadArtefacts"
+  name        = "aws-clive-ReadArtefacts"
   description = "Allow reading of aws_clive software artefacts"
   policy      = data.aws_iam_policy_document.aws_clive_read_artefacts.json
 }
@@ -214,8 +296,13 @@ data "aws_iam_policy_document" "aws_clive_metadata_change" {
   }
 }
 
+resource "aws_iam_role_policy_attachment" "aws_clive_read_write_processed_bucket" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_read_write_processed_bucket.arn
+}
+
 resource "aws_iam_policy" "aws_clive_metadata_change" {
-  name        = "AwsEmrTemplateRepositoryMetadataOptions"
+  name        = "aws-clive-MetadataOptions"
   description = "Allow editing of Metadata Options"
   policy      = data.aws_iam_policy_document.aws_clive_metadata_change.json
 }

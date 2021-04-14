@@ -39,7 +39,7 @@ resource "aws_iam_role" "aws_clive_emr_launcher_lambda_role" {
 
 data "aws_iam_policy_document" "aws_clive_emr_launcher_assume_policy" {
   statement {
-    sid     = "AwsEmrTemplateRepositoryEMRLauncherLambdaAssumeRolePolicy"
+    sid     = "AwsCliveEMRLauncherLambdaAssumeRolePolicy"
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
 

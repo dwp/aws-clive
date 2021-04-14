@@ -29,6 +29,19 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   }
 
   statement {
+    sid    = "EnableIAMPermissionsAccount"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = [local.account[local.environment]]
+    }
+
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+
+  statement {
     sid    = "EnableIAMPermissionsCI"
     effect = "Allow"
 
@@ -95,7 +108,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   }
 
   statement {
-    sid    = "EnableIAMPermissionsAnalyticDatasetGen"
+    sid    = "EnableIAMPermissionsAwsClive"
     effect = "Allow"
 
     principals {
@@ -116,7 +129,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   }
 
   statement {
-    sid    = "Allowaws_cliveServiceGrant"
+    sid    = "AllowAwsCliveServiceGrant"
     effect = "Allow"
 
     principals {
@@ -191,7 +204,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk_encrypt" {
 }
 
 resource "aws_iam_policy" "aws_clive_ebs_cmk_encrypt" {
-  name        = "AwsEmrTemplateRepositoryEbsCmkEncrypt"
+  name        = "AwsCliveEbsCmkEncrypt"
   description = "Allow encryption and decryption using the aws_clive EBS CMK"
   policy      = data.aws_iam_policy_document.aws_clive_ebs_cmk_encrypt.json
 }
