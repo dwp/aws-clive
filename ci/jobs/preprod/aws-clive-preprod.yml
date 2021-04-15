@@ -15,7 +15,7 @@ jobs:
             AWS_ACC: ((aws_account.preprod))
       - .: (( inject meta.plan.terraform-apply ))
         params:
-          TF_WORKSPACE: default
+          TF_WORKSPACE: preprod
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: preprod

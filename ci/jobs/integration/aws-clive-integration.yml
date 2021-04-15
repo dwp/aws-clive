@@ -17,7 +17,7 @@ jobs:
             AWS_ACC: ((aws_account.integration))
       - .: (( inject meta.plan.terraform-apply ))
         params:
-          TF_WORKSPACE: default
+          TF_WORKSPACE: integration
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: integration
