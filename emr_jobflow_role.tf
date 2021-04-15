@@ -286,6 +286,17 @@ data "aws_iam_policy_document" "aws_clive_write_dynamodb" {
   }
 }
 
+resource "aws_iam_policy" "aws_clive_write_dynamodb" {
+  name        = "AwsCliveDynamoDB"
+  description = "Allows read and write access to ADG's EMRFS DynamoDB table"
+  policy      = data.aws_iam_policy_document.aws_clive_write_dynamodb.json
+}
+
+resource "aws_iam_role_policy_attachment" "analytical_dataset_generator_dynamodb" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_write_dynamodb.arn
+}
+
 data "aws_iam_policy_document" "aws_clive_metadata_change" {
   statement {
     effect = "Allow"
