@@ -27,3 +27,26 @@ resource "aws_iam_policy" "aws_clive_acm" {
   policy      = data.aws_iam_policy_document.aws_clive_acm.json
 }
 
+data "aws_iam_policy_document" "aws_clive_certificates" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::${local.mgt_certificate_bucket}*",
+      "arn:aws:s3:::${local.env_certificate_bucket}/*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "aws_clive_certificates" {
+  name        = "aws_cliveGetCertificates"
+  description = "Allow read access to the Crown-specific subset of the aws_clive"
+  policy      = data.aws_iam_policy_document.aws_clive_certificates.json
+}
+
+

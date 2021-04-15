@@ -134,3 +134,27 @@ resource "aws_iam_role_policy_attachment" "aws_clive_emr_launcher_policy_executi
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
+resource "aws_iam_policy" "aws_clive_emr_launcher_getsecrets" {
+  name        = "CliveGetSecrets"
+  description = "Allow Clive Lambda function to get secrets"
+  policy      = data.aws_iam_policy_document.aws_clive_emr_launcher_getsecrets.json
+}
+
+data "aws_iam_policy_document" "aws_clive_emr_launcher_getsecrets" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      data.terraform_remote_state.internal_compute.outputs.metadata_store_users.clive_writer.secret_arn,
+    ]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "aws_clive_emr_launcher_getsecrets" {
+  role       = aws_iam_role.aws_clive_emr_launcher_lambda_role.name
+  policy_arn = aws_iam_policy.aws_clive_emr_launcher_getsecrets.arn
+}

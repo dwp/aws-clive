@@ -29,14 +29,10 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/aws_clive/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive = local.keep_cluster_alive[local.environment]
-      add_master_sg      = aws_security_group.aws_clive_common.id
-      add_slave_sg       = aws_security_group.aws_clive_common.id
-      subnet_id = (
-        local.emr_capacity_reservation_preference[local.environment] == "none" ?
-        data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets.*.availability_zone, local.emr_subnet_non_capacity_reserved_environments)].id :
-        data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets.*.availability_zone, data.terraform_remote_state.common.outputs.ec2_capacity_reservations.emr_m5_16_x_large_2a.availability_zone)].id
-      )
+      keep_cluster_alive                  = local.keep_cluster_alive[local.environment]
+      add_master_sg                       = aws_security_group.aws_clive_common.id
+      add_slave_sg                        = aws_security_group.aws_clive_common.id
+      subnet_ids                          = join(",", data.terraform_remote_state.internal_compute.outputs.clive_subnet.ids)
       master_sg                           = aws_security_group.aws_clive_master.id
       slave_sg                            = aws_security_group.aws_clive_slave.id
       service_access_sg                   = aws_security_group.aws_clive_emr_service.id
@@ -85,6 +81,12 @@ resource "aws_s3_bucket_object" "configurations" {
       tez_am_launch_cmd_opts                        = local.tez_am_launch_cmd_opts[local.environment]
       tez_runtime_io_sort_mb                        = local.tez_runtime_io_sort_mb[local.environment]
       tez_runtime_unordered_output_buffer_size_mb   = local.tez_runtime_unordered_output_buffer_size_mb[local.environment]
+      hive_metsatore_username                       = data.terraform_remote_state.internal_compute.outputs.metadata_store_users.clive_writer.username
+      hive_metastore_pwd                            = data.terraform_remote_state.internal_compute.outputs.metadata_store_users.clive_writer.secret_name
+      hive_metastore_endpoint                       = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.endpoint
+      hive_metastore_database_name                  = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
+      s3_published_bucket                           = data.terraform_remote_state.common.outputs.published_bucket.id
+      s3_processed_bucket                           = data.terraform_remote_state.common.outputs.processed_bucket.id
     }
   )
 }

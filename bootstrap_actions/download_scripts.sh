@@ -1,10 +1,10 @@
 #!/bin/bash
 
-sudo mkdir -p /var/log/aws_clive
+sudo mkdir -p /var/log/aws-clive
 sudo mkdir -p /opt/emr
 sudo mkdir -p /opt/shared
 sudo mkdir -p /var/ci
-sudo chown hadoop:hadoop /var/log/aws_clive
+sudo chown hadoop:hadoop /var/log/aws-clive
 sudo chown hadoop:hadoop /opt/emr
 sudo chown hadoop:hadoop /opt/shared
 sudo chown hadoop:hadoop /var/ci
@@ -38,4 +38,4 @@ chmod u+x /opt/emr/logging.sh
 
     log_wrapper_message "Script downloads completed"
 
-)  >> /var/log/aws_clive/download_scripts.log 2>&1
+)  >> /var/log/aws-clive/download_scripts.log 2>&1

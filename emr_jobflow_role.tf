@@ -125,6 +125,11 @@ resource "aws_iam_role_policy_attachment" "aws_clive_extra_ssm_properties" {
   policy_arn = aws_iam_policy.aws_clive_extra_ssm_properties.arn
 }
 
+resource "aws_iam_role_policy_attachment" "aws_clive_certificates" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_certificates.arn
+}
+
 data "aws_iam_policy_document" "aws_clive_write_logs" {
   statement {
     effect = "Allow"
@@ -310,4 +315,9 @@ resource "aws_iam_policy" "aws_clive_metadata_change" {
 resource "aws_iam_role_policy_attachment" "aws_clive_metadata_change" {
   role       = aws_iam_role.aws_clive.name
   policy_arn = aws_iam_policy.aws_clive_metadata_change.arn
+}
+
+resource "aws_iam_role_policy_attachment" "aws_clive_write_data" {
+  role       = aws_iam_role.aws_clive.name
+  policy_arn = aws_iam_policy.aws_clive_write_data.arn
 }

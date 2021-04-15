@@ -47,7 +47,7 @@ variable "emr_core_instance_count" {
 
 variable "emr_ami_id" {
   description = "AMI ID to use for the HBase EMR nodes"
-  default     = "ami-0672faa58b65ff88d"
+  default     = "ami-0a5d042ae876f72ff"
 }
 
 //variable "hive_tez_container_size" {}
