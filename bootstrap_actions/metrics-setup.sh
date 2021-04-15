@@ -5,7 +5,7 @@ set -euo pipefail
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_adg_message "$1" "metrics-setup.sh" "$$" "Running as: $USER"
+        log_aws_clive_message "$1" "metrics-setup.sh" "$$" "Running as: $USER"
     }
 
     log_wrapper_message "Pulling files from S3"
@@ -15,7 +15,6 @@ set -euo pipefail
     mkdir -p /opt/emr/metrics
 
     aws s3 cp "${metrics_pom}" $METRICS_FILEPATH/pom.xml
-    aws s3 cp "${metrics_properties}" $METRICS_FILEPATH/metrics.properties
     aws s3 cp "${prometheus_config}" $METRICS_FILEPATH/prometheus_config.yml
 
     log_wrapper_message "Fetching and unzipping maven"

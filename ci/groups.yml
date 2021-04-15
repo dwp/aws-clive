@@ -1,8 +1,11 @@
 groups:
   - name: master
     jobs:
-      - development
-      - qa
+      - aws-clive-dev
+      - aws-clive-qa
+      - aws-clive-int
+      - aws-clive-preprod
+      - aws-clive-prod
   - name: pull-request
     jobs:
       - aws-clive-pr

@@ -2,7 +2,7 @@
 
 source /opt/shared/common_logging.sh
 
-log_adg_message() {
+log_aws_clive_message() {
     set +u
 
     message="${1}"

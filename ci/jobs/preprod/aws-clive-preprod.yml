@@ -1,0 +1,21 @@
+jobs:
+  - name: aws-clive-preprod
+    max_in_flight: 1
+    plan:
+      - in_parallel:
+          - get: aws-clive
+            trigger: true
+            passed:
+              - aws-clive-int
+          - get: emr-launcher-release
+            trigger: true
+      - .: (( inject meta.plan.terraform-bootstrap ))
+        config:
+          params:
+            AWS_ACC: ((aws_account.preprod))
+      - .: (( inject meta.plan.terraform-apply ))
+        params:
+          TF_WORKSPACE: default
+      - .: (( inject meta.plan.terraform-plan ))
+        params:
+          TF_WORKSPACE: preprod

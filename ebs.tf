@@ -1,3 +1,19 @@
+data "aws_iam_user" "breakglass" {
+  user_name = "breakglass"
+}
+
+data "aws_iam_role" "ci" {
+  name = "ci"
+}
+
+data "aws_iam_role" "administrator" {
+  name = "administrator"
+}
+
+data "aws_iam_role" "aws_config" {
+  name = "aws_config"
+}
+
 data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   statement {
     sid    = "EnableIAMPermissionsBreakglass"
@@ -6,6 +22,19 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
     principals {
       type        = "AWS"
       identifiers = [data.aws_iam_user.breakglass.arn]
+    }
+
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "EnableIAMPermissionsAccount"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = [local.account[local.environment]]
     }
 
     actions   = ["kms:*"]
@@ -79,7 +108,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   }
 
   statement {
-    sid    = "EnableIAMPermissionsAnalyticDatasetGen"
+    sid    = "EnableIAMPermissionsAwsClive"
     effect = "Allow"
 
     principals {
@@ -100,7 +129,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk" {
   }
 
   statement {
-    sid    = "Allowaws_cliveServiceGrant"
+    sid    = "AllowAwsCliveServiceGrant"
     effect = "Allow"
 
     principals {
@@ -175,7 +204,7 @@ data "aws_iam_policy_document" "aws_clive_ebs_cmk_encrypt" {
 }
 
 resource "aws_iam_policy" "aws_clive_ebs_cmk_encrypt" {
-  name        = "AwsEmrTemplateRepositoryEbsCmkEncrypt"
+  name        = "AwsCliveEbsCmkEncrypt"
   description = "Allow encryption and decryption using the aws_clive EBS CMK"
   policy      = data.aws_iam_policy_document.aws_clive_ebs_cmk_encrypt.json
 }

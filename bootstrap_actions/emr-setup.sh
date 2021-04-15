@@ -76,7 +76,7 @@ EOF
     --truststore-password "$TRUSTSTORE_PASSWORD" \
     --truststore-aliases "${truststore_aliases}" \
     --truststore-certs "${truststore_certs}" \
-    --jks-only true >> /var/log/aws_clive/acm-cert-retriever.log 2>&1
+    --jks-only true >> /var/log/aws-clive/acm-cert-retriever.log 2>&1
     
     #shellcheck disable=SC2024
     sudo -E acm-cert-retriever \
@@ -84,7 +84,7 @@ EOF
     --acm-key-passphrase "$ACM_KEY_PASSWORD" \
     --private-key-alias "${private_key_alias}" \
     --truststore-aliases "${truststore_aliases}" \
-    --truststore-certs "${truststore_certs}"  >> /var/log/aws_clive/acm-cert-retriever.log 2>&1 # No sudo needed to write to file, so redirect is fine
+    --truststore-certs "${truststore_certs}"  >> /var/log/aws-clive/acm-cert-retriever.log 2>&1 # No sudo needed to write to file, so redirect is fine
     
     cd /etc/pki/ca-trust/source/anchors/ || exit
 
@@ -113,4 +113,4 @@ EOF
     
     log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
 
-) >> /var/log/aws_clive/emr-setup.log 2>&1
+) >> /var/log/aws-clive/emr-setup.log 2>&1

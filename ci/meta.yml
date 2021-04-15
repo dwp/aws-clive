@@ -13,8 +13,10 @@ meta:
           TF_CLI_ARGS_apply: -lock-timeout=300s
           TF_CLI_ARGS_plan: -lock-timeout=300s
           TF_VAR_costcode: ((dataworks.costcode))
+
     terraform-bootstrap:
       task: terraform-bootstrap
+      .: (( inject meta.plan.terraform-common-config ))
       config:
         platform: linux
         image_resource:
@@ -29,32 +31,45 @@ meta:
             - -exc
             - |
               python bootstrap_terraform.py
-              cp terraform.tf ../terraform-bootstrap
+              sed -i '/^assume_role/ d' terraform.tfvars
+              cp terraform.tf ../terraform-config
+              cp terraform.tfvars ../terraform-config
           dir: aws-clive
         inputs:
           - name: aws-clive
         outputs:
-          - name: terraform-bootstrap
+          - name: terraform-config
       params:
         AWS_REGION: eu-west-2
+
     terraform-apply:
       task: terraform-apply
       .: (( inject meta.plan.terraform-common-config ))
       config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            tag: ((dataworks.terraform_version))
         run:
           path: sh
+          dir: aws-clive
           args:
             - -exc
             - |
-              cp ../terraform-bootstrap/terraform.tf .
+              cp ../terraform-config/terraform.tf .
+              cp ../terraform-config/terraform.tfvars .
+              export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
               terraform workspace show
               terraform init
               terraform plan -out terraform.plan
               terraform apply -auto-approve terraform.plan
-          dir: aws-clive
         inputs:
           - name: aws-clive
-          - name: terraform-bootstrap
+          - name: terraform-config
+          - name: emr-launcher-release
+
     terraform-plan:
       task: terraform-plan
       .: (( inject meta.plan.terraform-common-config ))
@@ -64,14 +79,17 @@ meta:
           args:
             - -exc
             - |
-              cp ../terraform-bootstrap/terraform.tf .
+              cp ../terraform-config/terraform.tf .
+              cp ../terraform-config/terraform.tfvars .
+              export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
               terraform workspace show
               terraform init
               terraform plan $DETAILED_EXITCODE
           dir: aws-clive
         inputs:
           - name: aws-clive
-          - name: terraform-bootstrap
+          - name: terraform-config
+          - name: emr-launcher-release
       params:
         DETAILED_EXITCODE: -detailed-exitcode
 

@@ -30,26 +30,6 @@ resource "aws_security_group" "aws_clive_emr_service" {
   tags                   = local.common_emr_tags
 }
 
-resource "aws_security_group_rule" "egress_lambda_https_to_vpc_endpoints" {
-  description              = "Allow HTTPS traffic to VPC endpoints"
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.metastore_rds_user_lambda.id
-  to_port                  = 443
-  type                     = "egress"
-  source_security_group_id = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.interface_vpce_sg_id
-}
-
-resource "aws_security_group_rule" "ingress_lambda_https_vpc_endpoints_from_emr" {
-  description              = "Allow HTTPS traffic from rds password rotator lambda"
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = data.terraform_remote_state.internal_compute.outputs.vpc.vpc.interface_vpce_sg_id
-  to_port                  = 443
-  type                     = "ingress"
-  source_security_group_id = aws_security_group.metastore_rds_user_lambda.id
-}
-
 resource "aws_security_group_rule" "egress_https_to_vpc_endpoints" {
   description              = "Allow HTTPS traffic to VPC endpoints"
   from_port                = 443
@@ -90,6 +70,15 @@ resource "aws_security_group_rule" "egress_http_s3_endpoint" {
   security_group_id = aws_security_group.aws_clive_common.id
 }
 
+resource "aws_security_group_rule" "egress_https_dynamodb_endpoint" {
+  description       = "Allow HTTPS access to DynamoDB via its endpoint (EMRFS)"
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  prefix_list_ids   = [data.terraform_remote_state.internal_compute.outputs.vpc.vpc.prefix_list_ids.dynamodb]
+  security_group_id = aws_security_group.aws_clive_common.id
+}
 
 resource "aws_security_group_rule" "egress_internet_proxy" {
   description              = "Allow Internet access via the proxy (for ACM-PCA)"
@@ -129,7 +118,7 @@ resource "aws_security_group_rule" "ingress_to_dks" {
   from_port   = 8443
   to_port     = 8443
 
-  cidr_blocks = data.terraform_remote_state.internal_compute.outputs.aws_clive_subnet_new.cidr_blocks
+  cidr_blocks = data.terraform_remote_state.internal_compute.outputs.clive_subnet.cidr_blocks
 
   security_group_id = data.terraform_remote_state.crypto.outputs.dks_sg_id[local.environment]
 }

@@ -4,9 +4,14 @@ spruce:
       - meta
     merge:
       - with_in: ci/
-        regexp: ".*.yml"
+        regexp: ".*yml"
       - with_in: ci/jobs/
-        regexp: ".*.yml"
+      - with_in: ci/jobs/development/
+      - with_in: ci/jobs/qa/
+      - with_in: ci/jobs/qa/admin/
+      - with_in: ci/jobs/integration/
+      - with_in: ci/jobs/preprod/
+      - with_in: ci/jobs/production/
     to: aviator_pipeline.yml
 fly:
   name: aws-clive

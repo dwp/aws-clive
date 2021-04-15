@@ -13,6 +13,14 @@ Instances:
   - InstanceFleetType: "MASTER"
     Name: MASTER
     TargetOnDemandCapacity: 1
+    %{~ if capacity_reservation_preference == "open" ~}
+    LaunchSpecifications:
+      OnDemandSpecification:
+        AllocationStrategy: "lowest-price"
+        CapacityReservationOptions:
+          CapacityReservationPreference: "${capacity_reservation_preference}"
+          UsageStrategy: "${capacity_reservation_usage_strategy}"
+    %{~ endif ~}
     InstanceTypeConfigs:
     - EbsConfiguration:
         EbsBlockDeviceConfigs:
@@ -24,6 +32,14 @@ Instances:
   - InstanceFleetType: "CORE"
     Name: CORE
     TargetOnDemandCapacity: ${core_instance_count}
+    %{~ if capacity_reservation_preference == "open" ~}
+    LaunchSpecifications:
+      OnDemandSpecification:
+        AllocationStrategy: "lowest-price"
+        CapacityReservationOptions:
+          CapacityReservationPreference: "${capacity_reservation_preference}"
+          UsageStrategy: "${capacity_reservation_usage_strategy}"
+    %{~ endif ~}
     InstanceTypeConfigs:
     - EbsConfiguration:
         EbsBlockDeviceConfigs:
@@ -32,24 +48,3 @@ Instances:
             VolumeType: "gp2"
           VolumesPerInstance: 1
       InstanceType: "${instance_type_core_one}"
-    - EbsConfiguration:
-        EbsBlockDeviceConfigs:
-        - VolumeSpecification:
-            SizeInGB: 250
-            VolumeType: "gp2"
-          VolumesPerInstance: 1
-      InstanceType: "${instance_type_core_two}"
-    - EbsConfiguration:
-        EbsBlockDeviceConfigs:
-        - VolumeSpecification:
-            SizeInGB: 250
-            VolumeType: "gp2"
-          VolumesPerInstance: 1
-      InstanceType: "${instance_type_core_three}"
-    - EbsConfiguration:
-        EbsBlockDeviceConfigs:
-        - VolumeSpecification:
-            SizeInGB: 250
-            VolumeType: "gp2"
-          VolumesPerInstance: 1
-      InstanceType: "${instance_type_core_four}"
