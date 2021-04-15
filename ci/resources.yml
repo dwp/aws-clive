@@ -38,4 +38,9 @@ resources:
 
   - name: meta-development
     type: meta
+  - name: meta-qa
+    type: meta
+  - name: meta-integration
+    type: meta
+
 
