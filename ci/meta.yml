@@ -79,14 +79,17 @@ meta:
           args:
             - -exc
             - |
-              cp ../terraform-bootstrap/terraform.tf .
+              cp ../terraform-config/terraform.tf .
+              cp ../terraform-config/terraform.tfvars .
+              export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
               terraform workspace show
               terraform init
               terraform plan $DETAILED_EXITCODE
           dir: aws-clive
         inputs:
           - name: aws-clive
-          - name: terraform-bootstrap
+          - name: terraform-config
+          - name: emr-launcher-release
       params:
         DETAILED_EXITCODE: -detailed-exitcode
 
