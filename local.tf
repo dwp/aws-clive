@@ -60,6 +60,14 @@ locals {
     production  = "0.0.1"
   }
 
+  dataworks_clive_version = {
+    development = "0.0.5"
+    qa          = "0.0.5"
+    integration = "0.0.5"
+    preprod     = "0.0.5"
+    production  = "0.0.5"
+  }
+
   aws_clive_alerts = {
     development = false
     qa          = false
@@ -72,6 +80,8 @@ locals {
 
   clive_db                = "uc_clive"
   hive_metastore_location = "data/uc_clive"
+  serde                   = "org.openx.data.jsonserde.JsonSerDe"
+  data_path               = "analytical-dataset"
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
   endpoint_services    = ["dynamodb", "ec2", "ec2messages", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "ssm", "ssmmessages"]

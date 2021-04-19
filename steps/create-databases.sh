@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-CREATE DATABASE IF NOT EXISTS "${clive_db}";
+hive -e "CREATE DATABASE IF NOT EXISTS ${clive_db} LOCATION '${published_bucket}/${hive_metastore_location}';"
