@@ -81,7 +81,7 @@ locals {
   clive_db                = "uc_clive"
   hive_metastore_location = "data/uc_clive"
   serde                   = "org.openx.data.jsonserde.JsonSerDe"
-  data_path               = "analytical-dataset"
+  data_path               = "analytical-dataset/full/"
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
   endpoint_services    = ["dynamodb", "ec2", "ec2messages", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "ssm", "ssmmessages"]
