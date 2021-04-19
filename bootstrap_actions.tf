@@ -24,7 +24,7 @@ resource "aws_s3_bucket_object" "download_sql_sh" {
   key    = "component/aws-clive/download_sql.sh"
   content = templatefile("${path.module}/bootstrap_actions/download_sql.sh",
     {
-      version               = local.aws_clive_version[local.environment]
+      version                 = local.dataworks_clive_version[local.environment]
       s3_artefact_bucket_id = data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id
       s3_config_bucket_id   = format("s3://%s", data.terraform_remote_state.common.outputs.config_bucket.id)
       aws_clive_log_level   = local.aws_clive_log_level[local.environment]
