@@ -9,7 +9,7 @@ Configurations:
 
 - Classification: "hive-site"
   Properties:
-    "hive.metastore.warehouse.dir": "s3://${s3_processed_bucket}/aws-clive/hive/external"
+    "hive.metastore.warehouse.dir": "s3://${s3_published_bucket}/${hive_metastore_location}"
     "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager"
     "hive.enforce.bucketing": "true"
     "hive.exec.dynamic.partition.mode": "nostrict"

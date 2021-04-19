@@ -85,6 +85,7 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_pwd                            = data.terraform_remote_state.internal_compute.outputs.metadata_store_users.clive_writer.secret_name
       hive_metastore_endpoint                       = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.endpoint
       hive_metastore_database_name                  = data.terraform_remote_state.internal_compute.outputs.hive_metastore_v2.database_name
+      hive_metastore_location                       = local.hive_metastore_location
       s3_published_bucket                           = data.terraform_remote_state.common.outputs.published_bucket.id
       s3_processed_bucket                           = data.terraform_remote_state.common.outputs.processed_bucket.id
     }
