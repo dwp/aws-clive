@@ -7,7 +7,7 @@
         log_aws_clive_message "$${1}" "download_sql.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
-    SCRIPT_DIR=/opt/emr/sql/extracted
+    SCRIPT_DIR=/opt/emr/clive
 
     echo "Download & install latest dataworks-clive scripts"
     log_wrapper_message "Downloading & install latest dataworks-clive scripts"
