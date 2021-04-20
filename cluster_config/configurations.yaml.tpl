@@ -9,7 +9,7 @@ Configurations:
 
 - Classification: "hive-site"
   Properties:
-    "hive.metastore.warehouse.dir": "s3://${s3_processed_bucket}/aws-clive/hive/external"
+    "hive.metastore.warehouse.dir": "s3://${s3_published_bucket}/${hive_metastore_location}"
     "hive.txn.manager": "org.apache.hadoop.hive.ql.lockmgr.DbTxnManager"
     "hive.enforce.bucketing": "true"
     "hive.exec.dynamic.partition.mode": "nostrict"
@@ -68,6 +68,7 @@ Configurations:
     Properties:
       "HADOOP_NAMENODE_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7101:/opt/emr/metrics/prometheus_config.yml\""
       "HADOOP_DATANODE_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7103:/opt/emr/metrics/prometheus_config.yml\""
+      "HADOOP_HEAPSIZE": "4096"
 - Classification: "yarn-env"
   Configurations:
   - Classification: "export"
