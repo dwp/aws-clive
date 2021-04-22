@@ -20,6 +20,7 @@ resource "aws_s3_bucket_object" "run_clive" {
       target_db = local.clive_db
       serde     = local.serde
       data_path = local.data_path
+      published_bucket        = format("s3://%s", data.terraform_remote_state.common.outputs.published_bucket.id)
     }
   )
 }
