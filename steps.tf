@@ -1,8 +1,8 @@
 resource "aws_s3_bucket_object" "create_databases_sh" {
   bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
-  key        = "component/aws-clive/create-databases.sh"
-  content = templatefile("${path.module}/steps/create-databases.sh",
+  key        = "component/aws-clive/create-clive-databases.sh"
+  content = templatefile("${path.module}/steps/create-clive-databases.sh",
     {
       clive_db                = local.clive_db
       hive_metastore_location = local.hive_metastore_location

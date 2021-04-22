@@ -19,10 +19,10 @@ BootstrapActions:
   ScriptBootstrapAction:
     Path: "file:/var/ci/download_sql.sh"
 Steps:
-- Name: "create-databases"
+- Name: "create-clive-databases"
   HadoopJarStep:
     Args:
-    - "file:/var/ci/create-databases.sh"
+    - "file:/var/ci/create-clive-databases.sh"
     Jar: "s3://eu-west-2.elasticmapreduce/libs/script-runner/script-runner.jar"
   ActionOnFailure: "${action_on_failure}"
 - Name: "run-clive"
