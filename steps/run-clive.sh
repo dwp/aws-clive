@@ -15,4 +15,4 @@ RAW_DIR="$PUBLISHED_BUCKET"/"$S3_PREFIX"
 
 
 echo "$TARGET_DB" "$SERDE" "$INPUT_DATE" "$RAW_DIR"
-/$CLIVE_LOCATION/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR"
+#/$CLIVE_LOCATION/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR"
