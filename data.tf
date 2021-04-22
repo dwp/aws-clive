@@ -28,6 +28,7 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/analytical-dataset/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/aws-clive/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/data/uc_clive/*",
     ]
   }
 
