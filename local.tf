@@ -126,6 +126,7 @@ locals {
   cw_agent_log_group_name              = "/app/aws_clive"
   cw_agent_bootstrap_loggrp_name       = "/app/aws_clive/bootstrap_actions"
   cw_agent_steps_loggrp_name           = "/app/aws_clive/step_logs"
+  cw_agent_tests_loggrp_name           = "/app/aws-clive/tests_logs"
   cw_agent_metrics_collection_interval = 60
 
   s3_log_prefix = "emr/aws_clive"

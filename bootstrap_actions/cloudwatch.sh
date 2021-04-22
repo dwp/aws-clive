@@ -7,6 +7,7 @@ cwa_namespace="$2"
 cwa_log_group_name="$3"
 cwa_bootstrap_loggrp_name="$4"
 cwa_steps_loggrp_name="$5"
+cwa_tests_loggrp_name="$6"
 
 
 export AWS_DEFAULT_REGION="$${4}"
@@ -71,6 +72,11 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "log_stream_name": "{instance_id}-metrics-setup.log",
             "timezone": "UTC"
           },
+          {
+            "file_path": "/var/log/clive/e2e.log",
+            "log_group_name": "$${cwa_tests_loggrp_name}",
+            "log_stream_name": "{instance_id}-e2e.log",
+            "timezone": "UTC"
         ]
       }
     },

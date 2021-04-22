@@ -32,7 +32,7 @@ chmod u+x /opt/emr/cloudwatch.sh
     echo "Setup cloudwatch logs"
     sudo /opt/emr/cloudwatch.sh \
     "${cwa_metrics_collection_interval}" "${cwa_namespace}"  "${cwa_log_group_name}" \
-    "${aws_default_region}" "${cwa_bootstrap_loggrp_name}" "${cwa_steps_loggrp_name}"
+    "${aws_default_region}" "${cwa_bootstrap_loggrp_name}" "${cwa_steps_loggrp_name}" "${cwa_tests_loggrp_name}"
 
     log_wrapper_message "Getting the DKS Certificate Details "
     log_wrapper_message "Getting the DKS Certificate Details "
