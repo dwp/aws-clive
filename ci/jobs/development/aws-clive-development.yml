@@ -12,16 +12,16 @@ jobs:
           - get: dataworks-behavioural-framework
             resource: dataworks-behavioural-framework-test
             trigger: false
-#      - .: (( inject meta.plan.terraform-bootstrap ))
-#        config:
-#          params:
-#            AWS_ACC: ((aws_account.development))
-#      - .: (( inject meta.plan.terraform-apply ))
-#        params:
-#          TF_WORKSPACE: default
-#      - .: (( inject meta.plan.terraform-plan ))
-#        params:
-#          TF_WORKSPACE: default
+      - .: (( inject meta.plan.terraform-bootstrap ))
+        config:
+          params:
+            AWS_ACC: ((aws_account.development))
+      - .: (( inject meta.plan.terraform-apply ))
+        params:
+          TF_WORKSPACE: default
+      - .: (( inject meta.plan.terraform-plan ))
+        params:
+          TF_WORKSPACE: default
       - .: (( inject meta.plan.e2e-tests))
         config:
           params:
