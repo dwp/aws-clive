@@ -9,7 +9,6 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
 
     resources = [
       data.terraform_remote_state.common.outputs.published_bucket.arn,
-      data.terraform_remote_state.common.outputs.processed_bucket.arn,
     ]
   }
 
@@ -28,7 +27,8 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/metrics/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/analytical-dataset/*",
-      "${data.terraform_remote_state.common.outputs.processed_bucket.arn}/aws-clive/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/aws-clive/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/data/uc_clive/*",
     ]
   }
 
@@ -45,7 +45,6 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
 
     resources = [
       "${data.terraform_remote_state.common.outputs.published_bucket_cmk.arn}",
-      "${data.terraform_remote_state.common.outputs.processed_bucket_cmk.arn}",
     ]
   }
 }

@@ -54,6 +54,7 @@ resource "aws_s3_bucket_object" "emr_setup_sh" {
       cwa_bootstrap_loggrp_name       = aws_cloudwatch_log_group.aws_clive_cw_bootstrap_loggroup.name
       cwa_steps_loggrp_name           = aws_cloudwatch_log_group.aws_clive_cw_steps_loggroup.name
       name                            = local.emr_cluster_name
+      cwa_tests_loggrp_name           = aws_cloudwatch_log_group.aws_clive_cw_tests_loggroup.name
   })
 }
 
@@ -84,6 +85,12 @@ resource "aws_cloudwatch_log_group" "aws_clive_cw_bootstrap_loggroup" {
 
 resource "aws_cloudwatch_log_group" "aws_clive_cw_steps_loggroup" {
   name              = local.cw_agent_steps_loggrp_name
+  retention_in_days = 180
+  tags              = local.common_tags
+}
+
+resource "aws_cloudwatch_log_group" "aws_clive_cw_tests_loggroup" {
+  name              = local.cw_agent_tests_loggrp_name
   retention_in_days = 180
   tags              = local.common_tags
 }
