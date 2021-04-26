@@ -10,7 +10,7 @@ resources:
   - name: aws-clive
     type: git
     source:
-      branch: DW-6049
+      branch: master
       uri: https://github.com/dwp/aws-clive.git
       access_token: ((dataworks-secrets.concourse_github_pat))
     webhook_token: ((dataworks.concourse_github_webhook_token))
@@ -24,20 +24,10 @@ resources:
     check_every: 1h
     webhook_token: ((dataworks.concourse_github_webhook_token))
 
-
-#  - name: dataworks-behavioural-framework
-#    type: git
-#    source:
-#      branch: master
-#      uri: https://github.com/dwp/dataworks-behavioural-framework.git
-#      access_token: ((dataworks-secrets.concourse_github_pat))
-#    webhook_token: ((dataworks.concourse_github_webhook_token))
-#    check_every: 5m
-
-  - name: dataworks-behavioural-framework-test
+  - name: dataworks-behavioural-framework
     type: git
     source:
-      branch: DW-6049-clive
+      branch: master
       uri: https://github.com/dwp/dataworks-behavioural-framework.git
       access_token: ((dataworks-secrets.concourse_github_pat))
     webhook_token: ((dataworks.concourse_github_webhook_token))
