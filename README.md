@@ -2,8 +2,8 @@
 
 ## How the E2E tests work right now
 
-A completed output is taken from `analytical-dataset-generation` and put into the `published_bucket` in a folder labeled `e2e-test-clive-dataset` this is done in the dev and qa environments.  
-If those files are ever deleted they will need to be manually replaced. The reason we don't dynamically recreate them is that they require to have the encryption metadata attached specific to those files and ADG is the provider of those.  
+A completed output is taken from `analytical-dataset-generation` and put into the `published_bucket` in a folder labelled `e2e-test-clive-dataset` this is done in the dev and qa environments.  
+If those files are ever deleted they will need to be manually replaced. The reason we don't dynamically recreate them is that they require to have the encryption metadata attached to those files and ADG is the provider of those.  
 
 The Clive dataset for the E2E is built on the small dataset in the above prefix and a comparison is made on one of the collections.  
 
