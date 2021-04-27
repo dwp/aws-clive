@@ -77,6 +77,19 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "log_group_name": "$${cwa_tests_loggrp_name}",
             "log_stream_name": "{instance_id}-e2e.log",
             "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/aws-clive/run-clive.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "{instance_id}-run-clive.log",
+            "timezone": "UTC"
+          },
+          {
+            "file_path": "/var/log/aws-clive/create-clive-databases.log",
+            "log_group_name": "$${cwa_steps_loggrp_name}",
+            "log_stream_name": "{instance_id}-create-clive-databases.log",
+            "timezone": "UTC"
+          }
         ]
       }
     },
