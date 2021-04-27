@@ -1,9 +1,10 @@
 # aws-clive
 
-## A template repository for building EMR cluster in AWS
+## How the E2E tests work right now
 
-This repo contains Makefile and base terraform folders and jinja2 files to fit the standard pattern.
-This repo is a base to create new Terraform repos, renaming the template files and adding the githooks submodule, making the repo ready for use.
+A completed output is taken from `analytical-dataset-generation` and put into the `published_bucket` in a folder labeled `e2e-test-clive-dataset` this is done in the dev and qa environments.  
+If those files are ever deleted they will need to be manually replaced. The reason we don't dynamically recreate them is that they require to have the encryption metadata attached specific to those files and ADG is the provider of those. 
+
 
 Running aviator will create the pipeline required on the AWS-Concourse instance, in order pass a mandatory CI ran status check.  this will likely require you to login to Concourse, if you haven't already.
 
