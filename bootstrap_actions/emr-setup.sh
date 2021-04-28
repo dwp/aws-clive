@@ -111,9 +111,9 @@ EOF
     hostnamectl set-hostname "$HOSTNAME"
     aws ec2 create-tags --resources "$INSTANCE_ID" --tags Key=Name,Value="$HOSTNAME"
     
-    chmod u+x /opt/emr/update_dynamo.sh
+    chmod u+x /var/ci/update_dynamo.sh
 
-    /opt/emr/update_dynamo.sh &
+    /var/ci/update_dynamo.sh &
 
     log_wrapper_message "Completed the emr-setup.sh step of the EMR Cluster"
 
