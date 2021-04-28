@@ -79,7 +79,7 @@
 
     log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $EXPORT_DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, Snapshot_Type: $SNAPSHOT_TYPE, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
 
-    update_expression="SET #d = :s, Cluster_Id = :v, S3_Prefix_Snapshots = :w, Snapshot_Type = :x, TimeToExist = :z"
+    update_expression="SET #d = :s, Cluster_Id = :v, S3_Prefix_Analytical_DataSet = :b, Snapshot_Type = :x, TimeToExist = :z"
     expression_values="\":s\": {\"S\":\"$EXPORT_DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":w\": {\"S\":\"$S3_PREFIX\"}, \":x\": {\"S\":\"$SNAPSHOT_TYPE\"}, \":z\": {\"N\":\"$ttl_value\"}"
     expression_names="\"#d\":\"Date\""
 
