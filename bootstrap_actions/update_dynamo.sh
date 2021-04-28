@@ -9,7 +9,7 @@
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_pdm_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_aws_clive_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
   log_wrapper_message "Start running update_dynamo.sh Shell"
@@ -129,7 +129,7 @@
 
   #Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
   #shellcheck disable=SC2086
-  response=$(aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}')
+  response=$(aws dynamodb get-item --table-name "${dynamodb_table_name}" --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}')
   if [[ -z $response ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
   else
@@ -150,4 +150,4 @@
   #kick off loop to process all step files
   check_step_dir
 
-) >> /var/log/pdm/update_dynamo_sh.log 2>&1
+) >> /var/log/aws-clive/update_dynamo_sh.log 2>&1
