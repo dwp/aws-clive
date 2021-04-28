@@ -4,13 +4,12 @@
 
     #only log on master to avoid duplication
     if [[ "$INSTANCE_ROLE" != '"MASTER"' ]]; then
-        exit 0
+      exit 0
     fi
-
     source /opt/emr/logging.sh
 
     function log_wrapper_message() {
-        log_aws_clive_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
+        log_pdm_message "$${1}" "update_dynamo.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
     }
 
   log_wrapper_message "Start running update_dynamo.sh Shell"
@@ -20,11 +19,11 @@
   S3_PREFIX_FILE=/opt/emr/s3_prefix.txt
   SNAPSHOT_TYPE_FILE=/opt/emr/snapshot_type.txt
   EXPORT_DATE_FILE=/opt/emr/export_date.txt
-  
   DATE=$(date '+%Y-%m-%d')
+  DATA_PRODUCT="CLIVE"
   CLUSTER_ID=$(jq '.jobFlowId' < /mnt/var/lib/info/job-flow.json)
   CLUSTER_ID="$${CLUSTER_ID//\"}"
-
+  
   FAILED_STATUS="FAILED"
   COMPLETED_STATUS="COMPLETED"
   IN_PROGRESS_STATUS="IN_PROGRESS"
@@ -41,23 +40,19 @@
   S3_PREFIX=$(cat $S3_PREFIX_FILE)
   SNAPSHOT_TYPE=$(cat $SNAPSHOT_TYPE_FILE)
   EXPORT_DATE=$(cat $EXPORT_DATE_FILE)
-  DATA_PRODUCT="CLIVE"
 
   if [[ -z "$EXPORT_DATE" ]]; then
     log_wrapper_message "Export date from file was empty, so defaulting to today's date"
     EXPORT_DATE="$DATE"
   fi
 
-  if [[ "$SNAPSHOT_TYPE" == "incremental" ]]; then
-    FINAL_STEP_NAME="executeUpdateAll"
-  fi
+  processed_files=()
 
   get_ttl() {
       TIME_NOW=$(($(date +'%s * 1000 + %-N / 1000000')))
       echo $((TIME_NOW + 604800000))
   }
 
-  processed_files=()
   dynamo_update_item() {
     current_step="$1"
     status="$2"
@@ -68,7 +63,7 @@
     log_wrapper_message "Updating DynamoDB with Correlation_Id: $CORRELATION_ID, DataProduct: $DATA_PRODUCT, Date: $EXPORT_DATE, Cluster_Id: $CLUSTER_ID, S3_Prefix_Analytical_DataSet: $S3_PREFIX, Snapshot_Type: $SNAPSHOT_TYPE, TimeToExist: $ttl_value, CurrentStep: $current_step, Status: $status, Run_Id: $run_id"
 
     update_expression="SET #d = :s, Cluster_Id = :v, S3_Prefix_Analytical_DataSet = :b, Snapshot_Type = :x, TimeToExist = :z"
-    expression_values="\":s\": {\"S\":\"$EXPORT_DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":w\": {\"S\":\"$S3_PREFIX\"}, \":x\": {\"S\":\"$SNAPSHOT_TYPE\"}, \":z\": {\"N\":\"$ttl_value\"}"
+    expression_values="\":s\": {\"S\":\"$EXPORT_DATE\"}, \":v\": {\"S\":\"$CLUSTER_ID\"}, \":b\": {\"S\":\"$S3_PREFIX\"}, \":x\": {\"S\":\"$SNAPSHOT_TYPE\"}, \":z\": {\"N\":\"$ttl_value\"}"
     expression_names="\"#d\":\"Date\""
 
     if [[ -n "$current_step" ]] && [[ "$current_step" != "NOT_SET" ]]; then
@@ -105,9 +100,6 @@
       state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
         step_script_name=$(jq -r '.args[0]' "$i")
-        if [[ "$step_script_name" == "python3" ]]; then
-            step_script_name=$(jq -r '.args[1]' "$i")
-        fi
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
         state=$(jq -r '.state' "$i")
         if [[ "$state" == "$FAILED_STATUS" ]] || [[ "$state" == "$CANCELLED_STATUS" ]]; then
@@ -127,17 +119,18 @@
         else
           sleep 5
         fi
-        PREVIOUS_STATE="$state"
-        PREVIOUS_STEP="$CURRENT_STEP"
+        PREVIOUS_STATE=$state
+        PREVIOUS_STEP=$CURRENT_STEP
       done
     done
+    sleep 5
     check_step_dir
   }
 
   #Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
   #shellcheck disable=SC2086
-  response=$(aws dynamodb get-item --table-name "${dynamodb_table_name}" --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}') # Quoting is fine, has to be this way for DDB
-  if [[ -z "$response" ]]; then
+  response=$(aws dynamodb get-item --table-name ${dynamodb_table_name} --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}')
+  if [[ -z $response ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
   else
     LAST_STATUS=$(echo "$response" | jq -r .'Item.Status.S')
@@ -152,8 +145,9 @@
     NEW_RUN_ID=$((CURRENT_RUN_ID+1))
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "$NEW_RUN_ID"
   fi
+  log_wrapper_message "Updating DynamoDB with CORRELATION_ID: $CORRELATION_ID and RUN_ID: $NEW_RUN_ID"
 
   #kick off loop to process all step files
   check_step_dir
 
-) >> /var/log/aws-clive/update_dynamo_sh.log 2>&1
+) >> /var/log/pdm/update_dynamo_sh.log 2>&1
