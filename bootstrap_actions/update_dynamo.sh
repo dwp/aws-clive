@@ -99,12 +99,7 @@
         expression_values="$expression_values, \":t\": {\"N\":\"$run_id\"}"
     fi
 
-    if [[ -n "$output_location_value" ]] && [[ "$output_location_value" != "NOT_SET" ]]; then
-        update_expression="$update_expression, S3_Prefix_Analytical_DataSet = :b"
-        expression_values="$expression_values, \":b\": {\"S\":\"$output_location_value\"}"
-    fi
-
-    $(which aws) dynamodb update-item --table-name "${dynamodb_table_name}" \
+    $(which aws) dynamodb update-item  --table-name "${dynamodb_table_name}" \
         --key "{\"Correlation_Id\":{\"S\":\"$CORRELATION_ID\"},\"DataProduct\":{\"S\":\"$DATA_PRODUCT\"}}" \
         --update-expression "$update_expression" \
         --expression-attribute-values "{$expression_values}" \
