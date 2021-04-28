@@ -255,8 +255,8 @@ locals {
     development = "5"
     qa          = "5"
     integration = "5"
-    preprod     = "20"
-    production  = "20"
+    preprod     = "10"
+    production  = "10"
   }
   //
   //  map_reduce_vcores_per_node = {
