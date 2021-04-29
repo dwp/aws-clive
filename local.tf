@@ -133,18 +133,18 @@ locals {
 
   emr_capacity_reservation_preference = {
     development = "none"
-    qa          = "open"
+    qa          = "none"
     integration = "none"
     preprod     = "none"
-    production  = "open"
+    production  = "none"
   }
 
   emr_capacity_reservation_usage_strategy = {
     development = ""
-    qa          = "use-capacity-reservations-first"
+    qa          = ""
     integration = ""
     preprod     = ""
-    production  = "use-capacity-reservations-first"
+    production  = ""
   }
 
   emr_subnet_non_capacity_reserved_environments = "eu-west-2b"
@@ -255,8 +255,8 @@ locals {
     development = "5"
     qa          = "5"
     integration = "5"
-    preprod     = "20"
-    production  = "20"
+    preprod     = "10"
+    production  = "10"
   }
   //
   //  map_reduce_vcores_per_node = {
