@@ -68,7 +68,7 @@ locals {
     production  = "0.0.8"
   }
 
-  aws_clive_alerts = {
+  clive_alerts = {
     development = false
     qa          = false
     integration = false
