@@ -6,6 +6,19 @@ groups:
       - aws-clive-int
       - aws-clive-preprod
       - aws-clive-prod
+
   - name: pull-request
     jobs:
       - aws-clive-pr
+
+  - name: clear-dynamodb-row
+    jobs:
+      - clear-dynamodb-row-development
+      - clear-dynamodb-row-qa
+      - clear-dynamodb-row-integration
+      - clear-dynamodb-row-preprod
+      - clear-dynamodb-row-production
+
+  - name: update-pipeline
+    jobs:
+      - update-pipeline
