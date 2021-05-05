@@ -231,7 +231,7 @@ resource "aws_cloudwatch_event_target" "clive_success_start_object_tagger" {
 }
 
 resource "aws_iam_role" "allow_batch_job_submission" {
-  name               = "AllowBatchJobSubmission"
+  name               = "CliveAllowBatchJobSubmission"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_events_assume_role.json
   tags               = local.common_tags
 }
@@ -250,7 +250,7 @@ data "aws_iam_policy_document" "allow_batch_job_submission" {
 }
 
 resource "aws_iam_policy" "allow_batch_job_submission" {
-  name   = "AllowBatchJobSubmission"
+  name   = "CliveAllowBatchJobSubmission"
   policy = data.aws_iam_policy_document.allow_batch_job_submission.json
 }
 
