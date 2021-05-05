@@ -91,7 +91,7 @@ variable "region" {
 
 provider "aws" {
   version = "~> 3.2.0"
-  region  = var.region
+  region  = "eu-west-2"
 
   assume_role {
     role_arn = "arn:aws:iam::${lookup(local.account, local.environment)}:role/${var.assume_role}"
