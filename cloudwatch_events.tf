@@ -219,11 +219,11 @@ data "aws_iam_policy_document" "cloudwatch_events_assume_role" {
 resource "aws_cloudwatch_event_target" "clive_success_start_object_tagger" {
   target_id = "clive_success"
   rule      = aws_cloudwatch_event_rule.clive_success.name
-  arn       = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.clive_job_queue.arn
+  arn       = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.clive_job_queue.arn
   role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
-    job_definition = data.terraform_remote_state.aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
+    job_definition = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
     job_name       = "clive-success-cloudwatch-event"
   }
 

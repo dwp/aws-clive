@@ -205,7 +205,7 @@ data "terraform_remote_state" "management_artefact" {
   }
 }
 
-data "terraform_remote_state" "aws_s3_object_tagger" {
+data "terraform_remote_state" "dataworks_aws_s3_object_tagger" {
   backend   = "s3"
   workspace = terraform.workspace
 
