@@ -180,11 +180,11 @@ meta:
               source /assume-role
               set +x
 
-              jq -n --arg CORRELATION_ID "$CORRELATION_ID" --arg S3_PREFIX "$S3_PREFIX" --arg SNAPSHOT_TYPE "$SNAPSHOT_TYPE" --arg EXPORT_DATE "$EXPORT_DATE" '{
-                 "correlation_id": "$CORRELATION_ID",
-                 "s3_prefix": "$S3_PREFIX",
-                 "snapshot_type": "$SNAPSHOT_TYPE",
-                 "export_date": "$EXPORT_DATE"
+              jq -n --arg correlation_id "$CORRELATION_ID" --arg s3_prefix "$S3_PREFIX" --arg snapshot_type "$SNAPSHOT_TYPE" --arg export_date "$EXPORT_DATE" '{
+                 "correlation_id": $correlation_id,
+                 "s3_prefix": $s3_prefix,
+                 "snapshot_type": $snapshot_type,
+                 "export_date": $export_date
                }' > payload.json
 
               cat payload.json

@@ -135,7 +135,7 @@ locals {
     development = "none"
     qa          = "none"
     integration = "none"
-    preprod     = "none"
+    preprod     = "open"
     production  = "none"
   }
 
@@ -143,7 +143,7 @@ locals {
     development = ""
     qa          = ""
     integration = ""
-    preprod     = ""
+    preprod     = "use-capacity-reservations-first"
     production  = ""
   }
 
