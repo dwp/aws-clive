@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 (
     INSTANCE_ROLE=$(jq .instanceRole /mnt/var/lib/info/extraInstanceData.json)
 

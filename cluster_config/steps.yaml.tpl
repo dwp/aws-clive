@@ -18,9 +18,6 @@ BootstrapActions:
 - Name: "download_sql"
   ScriptBootstrapAction:
     Path: "file:/var/ci/download_sql.sh"
-- Name: "status_metrics"
-  ScriptBootstrapAction:
-    Path: "file:/var/ci/status_metrics.sh"
 Steps:
 - Name: "create-clive-databases"
   HadoopJarStep:

@@ -151,11 +151,12 @@ resource "aws_s3_bucket_object" "dynamo_json_file" {
 }
 
 resource "aws_s3_bucket_object" "status_metrics_sh" {
-  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key    = "component/aws-clive/status_metrics.sh"
   content = templatefile("${path.module}/bootstrap_actions/status_metrics.sh",
-  {
-    clive_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.clive_pushgateway_hostname
-  }
+    {
+      clive_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.clive_pushgateway_hostname
+    }
   )
 }
