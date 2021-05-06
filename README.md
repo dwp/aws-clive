@@ -23,3 +23,20 @@ In addition, you may want to do the following:
     1. Add/remove jobs in `./ci/jobs` as required 
     1. Create CI pipeline:  
 `aviator`
+
+## How the Clive object tagger works
+
+Upon the successful execution of Clive, a `clive_success` Cloudwatch Event is pushed, when this event is pushed it
+triggers an event rule named `clive_success_start_object_tagger`.  
+Definitions for both of these can be found within `cloudwatch_events.tf`.
+
+The Event rule mentioned above will call the `aws_clive_emr_launcher` lambda with 2 parameters, these are provided
+values on the rule definition using `local.data_classification` which can be found in `local.tf`.
+
+### Parameters
+
+|       Key      |                   Example                    |
+|----------------|----------------------------------------------|
+| data-s3-prefix | analytical-dataset/full/2021-05-06_01-44-46/ |
+| csv-location   | s3://dir/sub_dir/data.csv                    |
+
