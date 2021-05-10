@@ -11,7 +11,7 @@ set -Eeuo pipefail
 
     CLIVE_LOCATION="${clive_scripts_location}" 
 
-    chmod u+x $CLIVE_LOCATION/scripts/build_clive.sh
+    chmod u+x "$CLIVE_LOCATION"/scripts/build_clive.sh
 
     S3_PREFIX_FILE=/opt/emr/s3_prefix.txt
     S3_PREFIX=$(cat $S3_PREFIX_FILE)
@@ -27,7 +27,7 @@ set -Eeuo pipefail
 
     log_wrapper_message "Starting Clive job"
 
-    /$CLIVE_LOCATION/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION"
+    /"$CLIVE_LOCATION"/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION"
 
     log_wrapper_message "Finished Clive job"
 
