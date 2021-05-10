@@ -135,16 +135,16 @@ locals {
     development = "none"
     qa          = "none"
     integration = "none"
-    preprod     = "none"
-    production  = "none"
+    preprod     = "open"
+    production  = "open"
   }
 
   emr_capacity_reservation_usage_strategy = {
     development = ""
     qa          = ""
     integration = ""
-    preprod     = ""
-    production  = ""
+    preprod     = "use-capacity-reservations-first"
+    production  = "use-capacity-reservations-first"
   }
 
   emr_subnet_non_capacity_reserved_environments = "eu-west-2b"
