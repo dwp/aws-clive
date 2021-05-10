@@ -61,6 +61,12 @@ cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<CWAGEN
             "timezone": "UTC"
           },
           {
+            "file_path": "/var/log/aws-clive/update_dynamo_sh.log",
+            "log_group_name": "$${cwa_bootstrap_loggrp_name}",
+            "log_stream_name": "{instance_id}-update_dynamo_sh.log",
+            "timezone": "UTC"
+          },
+          {
             "file_path": "/var/log/aws-clive/download_scripts.log",
             "log_group_name": "$${cwa_bootstrap_loggrp_name}",
             "log_stream_name": "{instance_id}-download-scripts.log",
