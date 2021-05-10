@@ -172,3 +172,9 @@ resource "aws_s3_bucket_object" "retry_script" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "resume_step_script" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/pdm-dataset-generation/resume_step.sh"
+  content = file("${path.module}/bootstrap_actions/resume_step.sh")
+}

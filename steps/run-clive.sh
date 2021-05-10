@@ -5,6 +5,8 @@ set -Eeuo pipefail
     # Import the logging functions
     source /opt/emr/logging.sh
 
+    source /var/ci/resume_step.sh
+
     function log_wrapper_message() {
         log_aws_clive_message "$${1}" "run-clive.sh" "Running as: ,$USER"
     }
@@ -27,7 +29,7 @@ set -Eeuo pipefail
 
     log_wrapper_message "Starting Clive job"
 
-    /"$CLIVE_LOCATION"/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION"
+    "$CLIVE_LOCATION"/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION"
 
     log_wrapper_message "Finished Clive job"
 
