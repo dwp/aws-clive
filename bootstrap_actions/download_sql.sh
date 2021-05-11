@@ -3,7 +3,7 @@
     # Import the logging functions
     source /opt/emr/logging.sh
 
-    SCRIPT_DIR=/opt/emr/dataworks-clive
+    SCRIPT_DIR="${clive_scripts_location}" 
     DOWNLOAD_DIR=/opt/emr/downloads
 
     echo "Creating directories"

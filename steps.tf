@@ -17,10 +17,12 @@ resource "aws_s3_bucket_object" "run_clive" {
   key        = "component/aws-clive/run-clive.sh"
   content = templatefile("${path.module}/steps/run-clive.sh",
     {
-      target_db        = local.clive_db
-      serde            = local.serde
-      data_path        = local.data_path
-      published_bucket = format("s3://%s", data.terraform_remote_state.common.outputs.published_bucket.id)
+      target_db              = local.clive_db
+      serde                  = local.serde
+      data_path              = local.data_path
+      published_bucket       = format("s3://%s", data.terraform_remote_state.common.outputs.published_bucket.id)
+      clive_processes        = local.clive_processes[local.environment]
+      clive_scripts_location = local.clive_scripts_location
     }
   )
 }

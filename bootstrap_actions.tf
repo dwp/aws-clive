@@ -16,6 +16,7 @@ resource "aws_s3_bucket_object" "download_scripts_sh" {
       S3_COMMON_LOGGING_SHELL = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, data.terraform_remote_state.common.outputs.application_logging_common_file.s3_id)
       S3_LOGGING_SHELL        = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, aws_s3_bucket_object.logging_script.key)
       scripts_location        = format("s3://%s/%s", data.terraform_remote_state.common.outputs.config_bucket.id, "component/aws-clive")
+      clive_scripts_location  = local.clive_scripts_location
   })
 }
 
@@ -24,11 +25,12 @@ resource "aws_s3_bucket_object" "download_sql_sh" {
   key    = "component/aws-clive/download_sql.sh"
   content = templatefile("${path.module}/bootstrap_actions/download_sql.sh",
     {
-      version               = local.dataworks_clive_version[local.environment]
-      s3_artefact_bucket_id = data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id
-      s3_config_bucket_id   = format("s3://%s", data.terraform_remote_state.common.outputs.config_bucket.id)
-      aws_clive_log_level   = local.aws_clive_log_level[local.environment]
-      environment_name      = local.environment
+      version                = local.dataworks_clive_version[local.environment]
+      s3_artefact_bucket_id  = data.terraform_remote_state.management_artefact.outputs.artefact_bucket.id
+      s3_config_bucket_id    = format("s3://%s", data.terraform_remote_state.common.outputs.config_bucket.id)
+      aws_clive_log_level    = local.aws_clive_log_level[local.environment]
+      environment_name       = local.environment
+      clive_scripts_location = local.clive_scripts_location
     }
   )
 }
@@ -150,6 +152,7 @@ resource "aws_s3_bucket_object" "dynamo_json_file" {
   content    = file("${path.module}/bootstrap_actions/dynamo_schema.json")
 }
 
+
 resource "aws_s3_bucket_object" "status_metrics_sh" {
   bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
@@ -160,3 +163,31 @@ resource "aws_s3_bucket_object" "status_metrics_sh" {
     }
   )
 }
+
+resource "aws_s3_bucket_object" "retry_utility" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/aws-clive/retry.sh"
+  content = templatefile("${path.module}/bootstrap_actions/retry.sh",
+    {
+      retry_max_attempts          = local.retry_max_attempts[local.environment]
+      retry_attempt_delay_seconds = local.retry_attempt_delay_seconds[local.environment]
+      retry_enabled               = local.retry_enabled[local.environment]
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "retry_script" {
+  bucket = data.terraform_remote_state.common.outputs.config_bucket.id
+  key    = "component/aws-clive/with_retry.sh"
+  content = templatefile("${path.module}/bootstrap_actions/with_retry.sh",
+    {
+    }
+  )
+}
+
+resource "aws_s3_bucket_object" "resume_step_script" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/aws-clive/resume_step.sh"
+  content = file("${path.module}/bootstrap_actions/resume_step.sh")
+}
+

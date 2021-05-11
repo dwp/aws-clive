@@ -61,11 +61,11 @@ locals {
   }
 
   dataworks_clive_version = {
-    development = "0.0.8"
-    qa          = "0.0.8"
-    integration = "0.0.8"
-    preprod     = "0.0.8"
-    production  = "0.0.8"
+    development = "0.0.9"
+    qa          = "0.0.9"
+    integration = "0.0.9"
+    preprod     = "0.0.9"
+    production  = "0.0.9"
   }
 
   clive_alerts = {
@@ -82,6 +82,7 @@ locals {
   hive_metastore_location = "data/uc_clive"
   serde                   = "org.openx.data.jsonserde.JsonSerDe"
   data_path               = "analytical-dataset/full/"
+  clive_scripts_location  = "/opt/emr/dataworks-clive"
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
   endpoint_services    = ["dynamodb", "ec2", "ec2messages", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "ssm", "ssmmessages"]
@@ -296,6 +297,38 @@ locals {
     config_bucket  = data.terraform_remote_state.common.outputs.config_bucket
     config_prefix  = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.clive_object_tagger_data_classification.config_prefix
     data_s3_prefix = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.clive_object_tagger_data_classification.data_s3_prefix
+  }
+
+  retry_max_attempts = {
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "12"
+    production  = "12"
+  }
+
+  retry_attempt_delay_seconds = {
+    development = "5"
+    qa          = "5"
+    integration = "5"
+    preprod     = "5"
+    production  = "5"
+  }
+
+  retry_enabled = {
+    development = "true"
+    qa          = "true"
+    integration = "true"
+    preprod     = "true"
+    production  = "true"
+  }
+
+  clive_processes = {
+    development = "4"
+    qa          = "4"
+    integration = "4"
+    preprod     = "4"
+    production  = "4"
   }
 
 }
