@@ -160,7 +160,7 @@ resource "aws_s3_bucket_object" "status_metrics_sh" {
   content = templatefile("${path.module}/bootstrap_actions/status_metrics.sh",
     {
       clive_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.clive_pushgateway_hostname
-      final_step                  = local.final_step
+      final_step                 = local.final_step
     }
   )
 }
