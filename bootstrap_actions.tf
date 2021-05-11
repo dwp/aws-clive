@@ -141,6 +141,7 @@ resource "aws_s3_bucket_object" "update_dynamo_sh" {
   content = templatefile("${path.module}/bootstrap_actions/update_dynamo.sh",
     {
       dynamodb_table_name = local.data_pipeline_metadata
+      final_step          = local.final_step
     }
   )
 }
@@ -150,6 +151,19 @@ resource "aws_s3_bucket_object" "dynamo_json_file" {
   kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
   key        = "component/aws-clive/dynamo_schema.json"
   content    = file("${path.module}/bootstrap_actions/dynamo_schema.json")
+}
+
+
+resource "aws_s3_bucket_object" "status_metrics_sh" {
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+  key        = "component/aws-clive/status_metrics.sh"
+  content = templatefile("${path.module}/bootstrap_actions/status_metrics.sh",
+    {
+      clive_pushgateway_hostname = data.terraform_remote_state.metrics_infrastructure.outputs.clive_pushgateway_hostname
+      final_step                 = local.final_step
+    }
+  )
 }
 
 resource "aws_s3_bucket_object" "retry_utility" {
@@ -178,3 +192,4 @@ resource "aws_s3_bucket_object" "resume_step_script" {
   key     = "component/aws-clive/resume_step.sh"
   content = file("${path.module}/bootstrap_actions/resume_step.sh")
 }
+
