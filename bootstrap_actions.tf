@@ -141,6 +141,7 @@ resource "aws_s3_bucket_object" "update_dynamo_sh" {
   content = templatefile("${path.module}/bootstrap_actions/update_dynamo.sh",
     {
       dynamodb_table_name = local.data_pipeline_metadata
+      final_step          = local.final_step
     }
   )
 }
