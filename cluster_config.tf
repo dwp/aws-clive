@@ -88,6 +88,14 @@ resource "aws_s3_bucket_object" "configurations" {
       hive_metastore_location                       = local.hive_metastore_location
       s3_published_bucket                           = data.terraform_remote_state.common.outputs.published_bucket.id
       s3_processed_bucket                           = data.terraform_remote_state.common.outputs.processed_bucket.id
+      hive_bytes_per_reducer                        = local.hive_bytes_per_reducer[local.environment]
+      hive_tez_sessions_per_queue                   = local.hive_tez_sessions_per_queue[local.environment]
+      llap_number_of_instances                      = local.llap_number_of_instances[local.environment]
+      llap_daemon_yarn_container_mb                 = local.llap_daemon_yarn_container_mb[local.environment]
+      hive_auto_convert_join_noconditionaltask_size = local.hive_auto_convert_join_noconditionaltask_size[local.environment]
+      hive_max_reducers                             = local.hive_max_reducers[local.environment]
+      map_reduce_vcores_per_task                    = local.map_reduce_vcores_per_task[local.environment]
+      map_reduce_vcores_per_node                    = local.map_reduce_vcores_per_node[local.environment]
     }
   )
 }
