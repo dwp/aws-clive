@@ -324,11 +324,11 @@ locals {
   }
 
   clive_processes = {
-    development = "4"
-    qa          = "4"
-    integration = "4"
-    preprod     = "4"
-    production  = "4"
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "10"
+    production  = "10"
   }
 
   final_step = "run-clive"
