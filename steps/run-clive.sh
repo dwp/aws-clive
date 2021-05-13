@@ -29,7 +29,7 @@ set -Eeuo pipefail
 
     log_wrapper_message "Starting Clive job"
 
-    "$CLIVE_LOCATION"/scripts/build_clive.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION/sql"
+    "$CLIVE_LOCATION"/scripts/build_clive_parallel.sh "$TARGET_DB" "$SERDE" "$RAW_DIR" "$RETRY_SCRIPT" "$PROCESSES" "$CLIVE_LOCATION/split_sql"
 
     log_wrapper_message "Finished Clive job"
 
