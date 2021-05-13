@@ -28,7 +28,6 @@
   COMPLETED_STATUS="COMPLETED"
   CANCELLED_STATUS="CANCELLED"
   FINAL_STEP_NAME="${final_step}"
-
   while [[ ! -f "$SNAPSHOT_TYPE_FILE" ]] && [[ ! -f "$EXPORT_DATE_FILE" ]]
   do
     sleep 5
@@ -64,6 +63,7 @@ EOF
       fi
       state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
+        step_script_name=$(jq -r '.args[0]' "$i")
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
         state=$(jq -r '.state' "$i")
         if [[ "$state" == "$FAILED_STATUS" ]] ; then
