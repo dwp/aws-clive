@@ -124,7 +124,7 @@ Configurations:
     Properties:
       "HADOOP_NAMENODE_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7101:/opt/emr/metrics/prometheus_config.yml\""
       "HADOOP_DATANODE_OPTS": "\"-javaagent:/opt/emr/metrics/dependencies/jmx_prometheus_javaagent-0.14.0.jar=7103:/opt/emr/metrics/prometheus_config.yml\""
-      "HADOOP_HEAPSIZE": "4096"
+      "HADOOP_HEAPSIZE": "2048"
 - Classification: "yarn-env"
   Configurations:
   - Classification: "export"
