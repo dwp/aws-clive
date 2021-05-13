@@ -327,8 +327,8 @@ locals {
     development = "10"
     qa          = "10"
     integration = "10"
-    preprod     = "30"
-    production  = "30"
+    preprod     = "20"
+    production  = "20"
   }
 
   final_step = "run-clive"
