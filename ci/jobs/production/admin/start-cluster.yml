@@ -10,6 +10,3 @@ jobs:
             SNAPSHOT_TYPE: "full"
             EXPORT_DATE: "2021-05-06"
             S3_PREFIX: analytical-dataset/full/2021-05-06_10-28-04/
-
-
-
