@@ -53,10 +53,10 @@ resources:
       region: ((dataworks.aws_region))
       filters:
         owner-id: ((dataworks.aws_management_acc))
-         is-public: false
-         state: available
-         name: dw-al2-emr-ami-*
-         architecture: x86_64
+        is-public: false
+        state: available
+        name: dw-al2-emr-ami-*
+        architecture: x86_64
 
   - name: meta-development
     type: meta
