@@ -11,6 +11,10 @@ jobs:
               - aws-clive-qa
           - get: emr-launcher-release
             trigger: true
+          - get: emr-al2-ami
+            trigger: true
+            passed:
+              - aws-clive-qa
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
