@@ -1,12 +1,23 @@
+resources:
+  - name: monday-midnight
+    type: time
+    source:
+      start: 16:55 PM
+      stop: 17:00 PM
+      location: Europe/Belfast
+      days: [Friday]
+
 jobs:
   - name: dev-start-cluster
     plan:
+      - get: monday-midnight
+        trigger: true
       - .: (( inject meta.plan.start-cluster ))
         config:
           params:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
             AWS_ACC: ((aws_account.development))
-            S3_PREFIX: analytical-dataset/2020-08-13_22-16-58/
+            S3_PREFIX: "dynamic"
             CORRELATION_ID: test
             SNAPSHOT_TYPE: "full"
             EXPORT_DATE: "2020-08-13"

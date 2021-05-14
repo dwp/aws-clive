@@ -1,6 +1,17 @@
+resources:
+  - name: monday-midnight
+    type: time
+    source:
+      start: 12:00 AM
+      stop: 1:00 AM
+      location: Europe/London
+      days: [Monday]
+
 jobs:
   - name: prod-start-cluster
     plan:
+      - get: monday-midnight
+        trigger: true
       - .: (( inject meta.plan.start-cluster ))
         config:
           params:
@@ -8,5 +19,5 @@ jobs:
             AWS_ACC: ((aws_account.production))
             CORRELATION_ID: test
             SNAPSHOT_TYPE: "full"
-            EXPORT_DATE: "2021-05-06"
-            S3_PREFIX: analytical-dataset/full/2021-05-12_10-45-07/
+            EXPORT_DATE: "2021-05-16"
+            S3_PREFIX: "dynamic"
