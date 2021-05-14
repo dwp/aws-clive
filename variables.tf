@@ -47,5 +47,4 @@ variable "emr_core_instance_count" {
 
 variable "emr_ami_id" {
   description = "AMI ID to use for the HBase EMR nodes"
-  default     = "ami-0a5d042ae876f72ff"
 }
