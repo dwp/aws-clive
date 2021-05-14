@@ -71,7 +71,7 @@ jobs:
             - name: aws-clive
             - name: terraform-config
             - name: emr-launcher-release
-            - name: al2-emr-ami
+            - name: emr-al2-ami
         input_mapping:
           aws-clive: aws-clive-pr
         on_failure:
