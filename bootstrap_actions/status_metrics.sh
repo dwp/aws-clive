@@ -64,6 +64,7 @@ EOF
       fi
       state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
+        step_script_name=$(jq -r '.args[0]' "$i")
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
         state=$(jq -r '.state' "$i")
         if [[ "$state" == "$FAILED_STATUS" ]] ; then
