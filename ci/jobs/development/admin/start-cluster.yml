@@ -1,16 +1,16 @@
 resources:
-  - name: monday-midnight
+  - name: monday-midnightdev
     type: time
     source:
-      start: 16:55 PM
-      stop: 17:00 PM
+      start: 17:00 PM
+      stop: 17:05 PM
       location: Europe/Belfast
       days: [Friday]
 
 jobs:
   - name: dev-start-cluster
     plan:
-      - get: monday-midnight
+      - get: monday-midnightdev
         trigger: true
       - .: (( inject meta.plan.start-cluster ))
         config:
