@@ -7,6 +7,8 @@ jobs:
           version: every
         - get: emr-launcher-release
           trigger: false
+        - get: emr-al2-ami
+          trigger: true
       - put: aws-clive-pr
         params:
           path: aws-clive-pr
@@ -56,6 +58,7 @@ jobs:
             args:
               - -exc
               - |
+                export TF_VAR_emr_ami_id=$(cat ../emr-al2-ami/id)
                 terraform fmt -recursive -check=true
                 cp ../terraform-config/terraform.tf .
                 cp ../terraform-config/terraform.tfvars .
@@ -68,7 +71,7 @@ jobs:
             - name: aws-clive
             - name: terraform-config
             - name: emr-launcher-release
-#            - name: al2-emr-ami
+            - name: emr-al2-ami
         input_mapping:
           aws-clive: aws-clive-pr
         on_failure:
