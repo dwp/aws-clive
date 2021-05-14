@@ -62,6 +62,7 @@ jobs:
                 export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
                 terraform init
                 terraform workspace show
+                terraform fmt -recursive -check=true
                 terraform plan
           inputs:
             - name: aws-clive
