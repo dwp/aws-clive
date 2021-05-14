@@ -9,4 +9,4 @@ jobs:
             CORRELATION_ID: test
             SNAPSHOT_TYPE: "full"
             EXPORT_DATE: "2021-05-06"
-            S3_PREFIX: analytical-dataset/full/2021-05-06_10-28-04/
+            S3_PREFIX: analytical-dataset/full/2021-05-12_10-45-07/

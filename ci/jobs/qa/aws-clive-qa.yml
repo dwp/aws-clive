@@ -11,6 +11,8 @@ jobs:
             trigger: true
           - get: dataworks-behavioural-framework
             trigger: false
+          - get: emr-al2-ami
+            trigger: true
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
