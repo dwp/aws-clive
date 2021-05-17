@@ -73,6 +73,32 @@ resource "aws_cloudwatch_event_rule" "clive_success" {
 EOF
 }
 
+resource "aws_cloudwatch_event_rule" "clive_success_with_errors" {
+  name          = "clive_success_with_errors"
+  description   = "checks that all steps complete but with failures on non mandatory steps"
+  event_pattern = <<EOF
+{
+  "source": [
+    "aws.emr"
+  ],
+  "detail-type": [
+    "EMR Cluster State Change"
+  ],
+  "detail": {
+    "state": [
+      "TERMINATED"
+    ],
+    "name": [
+      "aws-clive"
+    ],
+    "stateChangeReason": [
+      "{\"code\":\"STEP_FAILURE\",\"message\":\"Steps completed with errors\"}"
+    ]
+  }
+}
+EOF
+}
+
 resource "aws_cloudwatch_event_rule" "clive_running" {
   name          = "clive_running"
   description   = "checks that clive has started running"
@@ -107,6 +133,7 @@ resource "aws_cloudwatch_metric_alarm" "clive_failed" {
   statistic                 = "Sum"
   threshold                 = "1"
   alarm_description         = "This metric monitors cluster termination with errors"
+  treat_missing_data        = "ignore"
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
@@ -133,6 +160,7 @@ resource "aws_cloudwatch_metric_alarm" "clive_terminated" {
   statistic                 = "Sum"
   threshold                 = "1"
   alarm_description         = "This metric monitors cluster terminated by user request"
+  treat_missing_data        = "ignore"
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
@@ -159,6 +187,7 @@ resource "aws_cloudwatch_metric_alarm" "clive_success" {
   statistic                 = "Sum"
   threshold                 = "1"
   alarm_description         = "Monitoring clive completion"
+  treat_missing_data        = "ignore"
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
@@ -174,6 +203,33 @@ resource "aws_cloudwatch_metric_alarm" "clive_success" {
   )
 }
 
+resource "aws_cloudwatch_metric_alarm" "clive_success_with_errors" {
+  count                     = local.clive_alerts[local.environment] == true ? 1 : 0
+  alarm_name                = "clive_success_with_errors"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "TriggeredRules"
+  namespace                 = "AWS/Events"
+  period                    = "60"
+  statistic                 = "Sum"
+  threshold                 = "1"
+  alarm_description         = "Monitoring clive completion with non-critical errors"
+  treat_missing_data        = "ignore"
+  insufficient_data_actions = []
+  alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
+  dimensions = {
+    RuleName = aws_cloudwatch_event_rule.clive_success.name
+  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name              = "clive_success_with_errors",
+      notification_type = "Warning",
+      severity          = "High"
+    },
+  )
+}
+
 resource "aws_cloudwatch_metric_alarm" "clive_running" {
   count                     = local.clive_alerts[local.environment] == true ? 1 : 0
   alarm_name                = "clive_running"
@@ -185,6 +241,7 @@ resource "aws_cloudwatch_metric_alarm" "clive_running" {
   statistic                 = "Sum"
   threshold                 = "1"
   alarm_description         = "Monitoring clive completion"
+  treat_missing_data        = "ignore"
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
