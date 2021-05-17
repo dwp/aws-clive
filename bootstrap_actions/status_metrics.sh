@@ -28,7 +28,6 @@
   COMPLETED_STATUS="COMPLETED"
   CANCELLED_STATUS="CANCELLED"
   FINAL_STEP_NAME="${final_step}"
-
   while [[ ! -f "$SNAPSHOT_TYPE_FILE" ]] && [[ ! -f "$EXPORT_DATE_FILE" ]]
   do
     sleep 5
