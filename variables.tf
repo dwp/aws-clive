@@ -40,12 +40,11 @@ variable "emr_core_instance_count" {
     development = "10"
     qa          = "10"
     integration = "10"
-    preprod     = "20"
-    production  = "20"
+    preprod     = "38"
+    production  = "38"
   }
 }
 
 variable "emr_ami_id" {
   description = "AMI ID to use for the HBase EMR nodes"
-  default     = "ami-0a5d042ae876f72ff"
 }

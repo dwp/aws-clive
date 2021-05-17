@@ -206,7 +206,3 @@ resource "aws_security_group_rule" "emr_core_to_core_egress_udp" {
   self              = true
   security_group_id = aws_security_group.aws_clive_slave.id
 }
-
-output "aws_clive_common_sg" {
-  value = aws_security_group.aws_clive_common
-}

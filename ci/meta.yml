@@ -58,6 +58,7 @@ meta:
           args:
             - -exc
             - |
+              export TF_VAR_emr_ami_id=$(cat ../emr-al2-ami/id)
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
@@ -69,6 +70,7 @@ meta:
           - name: aws-clive
           - name: terraform-config
           - name: emr-launcher-release
+          - name: emr-al2-ami
 
     terraform-plan:
       task: terraform-plan
@@ -79,6 +81,7 @@ meta:
           args:
             - -exc
             - |
+              export TF_VAR_emr_ami_id=$(cat ../emr-al2-ami/id)
               cp ../terraform-config/terraform.tf .
               cp ../terraform-config/terraform.tfvars .
               export TF_VAR_emr_launcher_zip="{base_path = \"../emr-launcher-release\", version = \"$(cat ../emr-launcher-release/version)\"}"
@@ -90,6 +93,7 @@ meta:
           - name: aws-clive
           - name: terraform-config
           - name: emr-launcher-release
+          - name: emr-al2-ami
       params:
         DETAILED_EXITCODE: -detailed-exitcode
 
@@ -179,6 +183,14 @@ meta:
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
+
+              if [[ "$S3_PREFIX" == "dynamic" ]]; then
+                S3_PREFIX=$(aws dynamodb scan --table-name data_pipeline_metadata --filter-expression '(DataProduct = :product AND #d = :date)' \
+                  --expression-attribute-values '{":product":{"S":"ADG-full"}, ":date": {"S": "2021-05-16"}}' --projection-expression "#d, S3_Prefix_Analytical_DataSet" \
+                  --expression-attribute-names '{"#d":"Date"}' --region eu-west-2 --output json \
+                  | jq -r '.Items[0].S3_Prefix_Analytical_DataSet.S')
+              fi
+              echo "S3_PREFIX: '$S3_PREFIX'"
 
               jq -n --arg correlation_id "$CORRELATION_ID" --arg s3_prefix "$S3_PREFIX" --arg snapshot_type "$SNAPSHOT_TYPE" --arg export_date "$EXPORT_DATE" '{
                  "correlation_id": $correlation_id,

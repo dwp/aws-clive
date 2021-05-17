@@ -61,11 +61,11 @@ locals {
   }
 
   dataworks_clive_version = {
-    development = "0.0.9"
-    qa          = "0.0.9"
-    integration = "0.0.9"
-    preprod     = "0.0.9"
-    production  = "0.0.9"
+    development = "0.0.12"
+    qa          = "0.0.12"
+    integration = "0.0.12"
+    preprod     = "0.0.12"
+    production  = "0.0.12"
   }
 
   clive_alerts = {
@@ -256,25 +256,25 @@ locals {
     development = "5"
     qa          = "5"
     integration = "5"
-    preprod     = "10"
-    production  = "10"
+    preprod     = "20"
+    production  = "29"
   }
-  //
-  //  map_reduce_vcores_per_node = {
-  //    development = "5"
-  //    qa          = "5"
-  //    integration = "5"
-  //    preprod     = "15"
-  //    production  = "15"
-  //  }
-  //
-  //  map_reduce_vcores_per_task = {
-  //    development = "1"
-  //    qa          = "1"
-  //    integration = "1"
-  //    preprod     = "5"
-  //    production  = "5"
-  //  }
+
+  map_reduce_vcores_per_node = {
+    development = "5"
+    qa          = "5"
+    integration = "5"
+    preprod     = "15"
+    production  = "15"
+  }
+
+  map_reduce_vcores_per_task = {
+    development = "1"
+    qa          = "1"
+    integration = "1"
+    preprod     = "5"
+    production  = "5"
+  }
 
   hive_max_reducers = {
     development = "1099"
@@ -324,11 +324,11 @@ locals {
   }
 
   clive_processes = {
-    development = "4"
-    qa          = "4"
-    integration = "4"
-    preprod     = "4"
-    production  = "4"
+    development = "10"
+    qa          = "10"
+    integration = "10"
+    preprod     = "20"
+    production  = "20"
   }
 
   final_step = "run-clive"
