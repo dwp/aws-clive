@@ -29,9 +29,9 @@ resource "aws_s3_bucket_object" "instances" {
   key    = "emr/aws_clive/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
     {
-      keep_cluster_alive                  = local.keep_cluster_alive[local.environment]
-      add_master_sg                       = aws_security_group.aws_clive_common.id
-      add_slave_sg                        = aws_security_group.aws_clive_common.id
+      keep_cluster_alive = local.keep_cluster_alive[local.environment]
+      add_master_sg      = aws_security_group.aws_clive_common.id
+      add_slave_sg       = aws_security_group.aws_clive_common.id
       subnet_id = (
         local.use_capacity_reservation[local.environment] == true ?
         data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets[index(data.terraform_remote_state.internal_compute.outputs.clive_subnet.subnets.*.availability_zone, data.terraform_remote_state.common.outputs.ec2_capacity_reservations.emr_m5_16_x_large_2a.availability_zone)].id :
