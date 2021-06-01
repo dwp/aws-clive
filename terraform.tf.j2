@@ -188,7 +188,6 @@ locals {
 
   environment = terraform.workspace == "default" ? "development" : terraform.workspace
 
-
   tags = {
   {% for key, value in common_tags.items() %}
     {{key}} = "{{value}}"{% endfor %}
