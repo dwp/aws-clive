@@ -188,13 +188,6 @@ locals {
 
   environment = terraform.workspace == "default" ? "development" : terraform.workspace
 
-  management_account = {
-    development = "management-dev"
-    qa          = "management-dev"
-    integration = "management-dev"
-    preprod     = "management"
-    production  = "management"
-   }
 
   tags = {
   {% for key, value in common_tags.items() %}
