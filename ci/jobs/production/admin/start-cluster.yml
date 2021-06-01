@@ -6,7 +6,7 @@ jobs:
           params:
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
             AWS_ACC: ((aws_account.production))
-            CORRELATION_ID: cc780bbb-5c2f-5652-9bc3-5294d80dbd18
+            CORRELATION_ID: test
             SNAPSHOT_TYPE: "full"
-            EXPORT_DATE: "2021-06-01"
-            S3_PREFIX: analytical-dataset/full/2021-06-01_09-40-57
+            EXPORT_DATE: "2021-05-06"
+            S3_PREFIX: analytical-dataset/full/2021-05-12_10-45-07/
