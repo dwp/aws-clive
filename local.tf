@@ -28,13 +28,6 @@ locals {
     management     = "management"
   }
 
-  management_account = {
-    development = "management-dev"
-    qa          = "management-dev"
-    integration = "management-dev"
-    preprod     = "management"
-    production  = "management"
-  }
 
   root_dns_name = {
     development = "dev.dataworks.dwp.gov.uk"

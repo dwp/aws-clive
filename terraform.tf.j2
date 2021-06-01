@@ -168,7 +168,7 @@ provider "aws" {
   region  = var.region
 
   assume_role {
-    role_arn = "arn:aws:iam::${local.account["management"]}:role/${var.assume_role}"
+    role_arn = "arn:aws:iam::${local.account[local.management_account[local.environment]]}:role/${var.assume_role}"
   }
 }
 
@@ -187,6 +187,14 @@ locals {
 locals {
 
   environment = terraform.workspace == "default" ? "development" : terraform.workspace
+
+  management_account = {
+    development = "management-dev"
+    qa          = "management-dev"
+    integration = "management-dev"
+    preprod     = "management"
+    production  = "management"
+   }
 
   tags = {
   {% for key, value in common_tags.items() %}
