@@ -86,7 +86,7 @@ locals {
 
   amazon_region_domain = "${data.aws_region.current.name}.amazonaws.com"
   endpoint_services    = ["dynamodb", "ec2", "ec2messages", "glue", "kms", "logs", "monitoring", ".s3", "s3", "secretsmanager", "ssm", "ssmmessages"]
-  no_proxy             = "169.254.169.254,${data.terraform_remote_state.metrics_infrastructure.outputs.clive_pushgateway_hostname},${join(",", formatlist("%s.%s", local.endpoint_services, local.amazon_region_domain))}"
+  no_proxy             = "169.254.169.254,${local.clive_pushgateway_hostname},${join(",", formatlist("%s.%s", local.endpoint_services, local.amazon_region_domain))}"
   ebs_emrfs_em = {
     EncryptionConfiguration = {
       EnableInTransitEncryption = false
@@ -329,4 +329,5 @@ locals {
 
   final_step = "run-clive"
 
+  clive_pushgateway_hostname = "${aws_service_discovery_service.clive_services.name}.${aws_service_discovery_private_dns_namespace.clive_services.name}"
 }
