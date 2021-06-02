@@ -214,7 +214,7 @@ resource "aws_cloudwatch_metric_alarm" "clive_success_with_errors" {
   insufficient_data_actions = []
   alarm_actions             = [data.terraform_remote_state.security-tools.outputs.sns_topic_london_monitoring.arn]
   dimensions = {
-    RuleName = aws_cloudwatch_event_rule.clive_success.name
+    RuleName = aws_cloudwatch_event_rule.clive_success_with_errors.name
   }
   tags = merge(
     local.common_tags,
