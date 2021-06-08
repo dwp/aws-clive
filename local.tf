@@ -116,7 +116,7 @@ locals {
   }
 
   step_fail_action = {
-    development = "TERMINATE_CLUSTER"
+    development = "CONTINUE"
     qa          = "TERMINATE_CLUSTER"
     integration = "TERMINATE_CLUSTER"
     preprod     = "TERMINATE_CLUSTER"
@@ -332,10 +332,10 @@ locals {
   clive_pushgateway_hostname = "${aws_service_discovery_service.clive_services.name}.${aws_service_discovery_private_dns_namespace.clive_services.name}"
 
   clive_max_retry_count = {
-    development = "1"
+    development = "0"
     qa          = "0"
     integration = "0"
     preprod     = "0"
-    production  = "2"
+    production  = "1"
   }
 }
