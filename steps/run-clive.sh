@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+sleep 60
+sdfsdf sdf sdf sdf sdf sdfdfkgpjdfg
+
+
 (
     # Import the logging functions
     source /opt/emr/logging.sh

@@ -54,7 +54,7 @@ terraform-workspace-new: ## Creates new Terraform workspace with Concourse remot
 .PHONY: get-dependencies
 get-dependencies: ## Get dependencies that are normally managed by pipeline
 	@{ \
-		for github_repository in emr-launcher; do \
+		for github_repository in emr-launcher dataworks-emr-relauncher; do \
 			export REPO=$${github_repository}; \
 			./get_lambda_release.sh; \
 		done \
