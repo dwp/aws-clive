@@ -330,4 +330,12 @@ locals {
   final_step = "run-clive"
 
   clive_pushgateway_hostname = "${aws_service_discovery_service.clive_services.name}.${aws_service_discovery_private_dns_namespace.clive_services.name}"
+
+  clive_max_retry_count = {
+    development = "0"
+    qa          = "0"
+    integration = "0"
+    preprod     = "0"
+    production  = "1"
+  }
 }
