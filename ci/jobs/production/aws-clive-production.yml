@@ -8,6 +8,7 @@ jobs:
             passed:
               - aws-clive-preprod
           - get: emr-launcher-release
+            version: { tag: ((emr-launcher-version.production)) }
             trigger: true
           - get: emr-relauncher-release
             trigger: true
