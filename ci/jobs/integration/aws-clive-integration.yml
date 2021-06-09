@@ -10,6 +10,7 @@ jobs:
             passed:
               - aws-clive-qa
           - get: emr-launcher-release
+            version: { tag: ((emr-launcher-version.integration)) }
             trigger: true
           - get: emr-relauncher-release
             trigger: true
