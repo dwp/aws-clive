@@ -1,5 +1,7 @@
 output "aws_clive_common_sg" {
-  value = aws_security_group.aws_clive_common
+  value = {
+    id = aws_security_group.aws_clive_common.id
+  }
 }
 
 output "aws_clive_emr_launcher_lambda" {
