@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
     ]
 
     resources = [
-      "${data.terraform_remote_state.common.outputs.published_bucket_cmk.arn}",
+      data.terraform_remote_state.common.outputs.published_bucket_cmk.arn,
     ]
   }
 }
