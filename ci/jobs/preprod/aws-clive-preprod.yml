@@ -6,16 +6,21 @@ jobs:
           - get: aws-clive
             trigger: true
             passed:
-              - aws-clive-int
+              - aws-clive-qa
           - get: emr-launcher-release
             version: { tag: ((emr-launcher-version.preprod)) }
             trigger: true
+            passed:
+              - aws-clive-qa
           - get: emr-relauncher-release
+            version: { tag: ((emr-relauncher-version.preprod)) }
             trigger: true
+            passed:
+              - aws-clive-qa
           - get: emr-al2-ami
             trigger: true
             passed:
-              - aws-clive-int
+              - aws-clive-qa
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
