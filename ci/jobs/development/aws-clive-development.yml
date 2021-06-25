@@ -11,6 +11,7 @@ jobs:
             version: { tag: ((emr-launcher-version.development)) }
             trigger: true
           - get: emr-relauncher-release
+            version: { tag: ((emr-relauncher-version.development)) }
             trigger: true
           - get: dataworks-behavioural-framework
             trigger: false
