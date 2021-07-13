@@ -267,7 +267,6 @@ data "aws_iam_policy_document" "cloudwatch_events_assume_role" {
   }
 }
 
-
 resource "aws_cloudwatch_event_target" "clive_success_start_object_tagger" {
   target_id = "clive_success"
   rule      = aws_cloudwatch_event_rule.clive_success.name
@@ -275,8 +274,22 @@ resource "aws_cloudwatch_event_target" "clive_success_start_object_tagger" {
   role_arn  = aws_iam_role.allow_batch_job_submission.arn
 
   batch_target {
-    job_definition = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.id
+    job_definition = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.name
     job_name       = "clive-success-cloudwatch-event"
+  }
+
+  input = "{\"Parameters\": {\"data-s3-prefix\": \"${local.data_classification.data_s3_prefix}\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
+}
+
+resource "aws_cloudwatch_event_target" "clive_success_with_errors_start_object_tagger" {
+  target_id = "clive_success_with_errors"
+  rule      = aws_cloudwatch_event_rule.clive_success_with_errors.name
+  arn       = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.clive_job_queue.arn
+  role_arn  = aws_iam_role.allow_batch_job_submission.arn
+
+  batch_target {
+    job_definition = data.terraform_remote_state.dataworks_aws_s3_object_tagger.outputs.s3_object_tagger_batch.job_definition.name
+    job_name       = "clive-success-with-errors-cloudwatch-event"
   }
 
   input = "{\"Parameters\": {\"data-s3-prefix\": \"${local.data_classification.data_s3_prefix}\", \"csv-location\": \"s3://${local.data_classification.config_bucket.id}/${local.data_classification.config_prefix}/data_classification.csv\"}}"
