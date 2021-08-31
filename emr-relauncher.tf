@@ -28,7 +28,7 @@ resource "aws_lambda_function" "clive_emr_relauncher" {
       SNS_TOPIC       = aws_sns_topic.clive_cw_trigger_sns.arn
       TABLE_NAME      = local.data_pipeline_metadata
       MAX_RETRY_COUNT = local.clive_max_retry_count[local.environment]
-      LOG_LEVEL       = "debug"
+      LOG_LEVEL       = local.aws_clive_log_level[local.environment]
     }
   }
 
