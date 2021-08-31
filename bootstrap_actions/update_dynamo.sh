@@ -23,7 +23,7 @@
   DATA_PRODUCT="CLIVE"
   CLUSTER_ID=$(jq '.jobFlowId' < /mnt/var/lib/info/job-flow.json)
   CLUSTER_ID="$${CLUSTER_ID//\"}"
-  
+
   FAILED_STATUS="FAILED"
   COMPLETED_STATUS="COMPLETED"
   IN_PROGRESS_STATUS="IN_PROGRESS"
@@ -97,40 +97,51 @@
       if [[ "$${processed_files[@]}" =~ "$${i}" ]]; then # We do not want a REGEX check here so it is ok
         continue
       fi
+      RETRY_COUNT=0
       state=$(jq -r '.state' "$i")
       while [[ "$state" != "$COMPLETED_STATUS" ]]; do
         step_script_name=$(jq -r '.args[0]' "$i")
         CURRENT_STEP=$(echo "$step_script_name" | sed 's:.*/::' | cut -f 1 -d '.')
         state=$(jq -r '.state' "$i")
-        if [[ "$state" == "$FAILED_STATUS" ]] || [[ "$state" == "$CANCELLED_STATUS" ]]; then
-          log_wrapper_message "Failed step. Step Name: $CURRENT_STEP, Step status: $state"
-          dynamo_update_item "$CURRENT_STEP" "$FAILED_STATUS" "NOT_SET"
-          exit 0
-        fi
-        if [[ "$CURRENT_STEP" == "$FINAL_STEP_NAME" ]] && [[ "$state" == "$COMPLETED_STATUS" ]]; then
-          dynamo_update_item "$CURRENT_STEP" "$COMPLETED_STATUS" "NOT_SET"
-          log_wrapper_message "All steps completed. Final step Name: $CURRENT_STEP, Step status: $state"
-          exit 0
-        fi
-        if [[ "$PREVIOUS_STATE" != "$state" ]] && [[ "$PREVIOUS_STEP" != "$CURRENT_STEP" ]]; then
-          dynamo_update_item "$CURRENT_STEP" "NOT_SET" "NOT_SET"
-          log_wrapper_message "Successful step. Last step name: $PREVIOUS_STEP, Last step status: $PREVIOUS_STATE, Current step name: $CURRENT_STEP, Current step status: $state"
-          processed_files+=( "$i" )
+        if [[ -n "$state" ]] && [[ -n "$CURRENT_STEP" ]]; then
+          if [[ "$state" == "$FAILED_STATUS" ]] || [[ "$state" == "$CANCELLED_STATUS" ]]; then
+            log_wrapper_message "Failed step. Step Name: $CURRENT_STEP, Step status: $state"
+            dynamo_update_item "$CURRENT_STEP" "$FAILED_STATUS" "NOT_SET"
+            exit 0
+          fi
+          if [[ "$CURRENT_STEP" == "$FINAL_STEP_NAME" ]] && [[ "$state" == "$COMPLETED_STATUS" ]]; then
+            dynamo_update_item "$CURRENT_STEP" "$COMPLETED_STATUS" "NOT_SET"
+            log_wrapper_message "All steps completed. Final step Name: $CURRENT_STEP, Step status: $state"
+            exit 0
+          fi
+          if [[ "$PREVIOUS_STATE" != "$state" ]] && [[ "$PREVIOUS_STEP" != "$CURRENT_STEP" ]]; then
+            dynamo_update_item "$CURRENT_STEP" "NOT_SET" "NOT_SET"
+            log_wrapper_message "Successful step. Last step name: $PREVIOUS_STEP, Last step status: $PREVIOUS_STATE, Current step name: $CURRENT_STEP, Current step status: $state"
+            processed_files+=( "$i" )
+          else
+            sleep 0.2
+          fi
         else
-          sleep 5
+          if [[ "$RETRY_COUNT" -ge "$MAX_RETRY" ]]; then
+            log_wrapper_message "Could not parse one or more json attributes from $i. Last Step Name: $PREVIOUS_STEP. Last State Name: $PREVIOUS_STATE."
+            dynamo_update_item "$CURRENT_STEP" "$FAILED_STATUS" "NOT_SET"
+            exit 1
+          fi
+          RETRY_COUNT=$((RETRY_COUNT+1))
+          log_wrapper_message "Sleeping... Failed reading step file $RETRY_COUNT times. Could not parse one or more json attributes from $i. Last Step Name: $PREVIOUS_STEP. Last State Name: $PREVIOUS_STATE."
+          sleep 1
         fi
-        PREVIOUS_STATE=$state
-        PREVIOUS_STEP=$CURRENT_STEP
+        PREVIOUS_STATE="$state"
+        PREVIOUS_STEP="$CURRENT_STEP"
       done
     done
-    sleep 5
     check_step_dir
   }
 
   #Check if row for this correlation ID already exists - in which case we need to increment the Run_Id
   #shellcheck disable=SC2086
-  response=$(aws dynamodb get-item --table-name "${dynamodb_table_name}" --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}')
-  if [[ -z $response ]]; then
+  response=$(aws dynamodb get-item --table-name "${dynamodb_table_name}" --key '{"Correlation_Id": {"S": "'$CORRELATION_ID'"}, "DataProduct": {"S": "'$DATA_PRODUCT'"}}') # Quoting is fine, has to be this way for DDB
+  if [[ -z "$response" ]]; then
     dynamo_update_item "NOT_SET" "$IN_PROGRESS_STATUS" "1"
   else
     LAST_STATUS=$(echo "$response" | jq -r .'Item.Status.S')
@@ -139,7 +150,7 @@
       log_wrapper_message "Previous failed status found, creating step_to_start_from.txt"
       CURRENT_STEP=$(echo "$response" | jq -r .'Item.CurrentStep.S')
       echo "$CURRENT_STEP" >> /opt/emr/step_to_start_from.txt
-    fi   
+    fi
 
     CURRENT_RUN_ID=$(echo "$response" | jq -r .'Item.Run_Id.N')
     NEW_RUN_ID=$((CURRENT_RUN_ID+1))
