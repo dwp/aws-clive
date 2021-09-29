@@ -144,7 +144,7 @@ locals {
 
   emr_capacity_reservation_usage_strategy = local.use_capacity_reservation[local.environment] == true ? "use-capacity-reservations-first" : ""
 
-  emr_subnet_non_capacity_reserved_environments = "eu-west-2b"
+  emr_subnet_non_capacity_reserved_environments = data.terraform_remote_state.common.outputs.aws_ec2_non_capacity_reservation_region
 
   hive_tez_container_size = {
     development = "2688"
