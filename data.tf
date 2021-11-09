@@ -20,6 +20,7 @@ data "aws_iam_policy_document" "aws_clive_write_data" {
       "s3:List*",
       "s3:DeleteObject*",
       "s3:Put*",
+      "s3:*"
     ]
 
     resources = [
