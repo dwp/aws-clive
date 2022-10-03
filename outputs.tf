@@ -13,4 +13,5 @@ output "private_dns" {
     clive_service_discovery_dns = aws_service_discovery_private_dns_namespace.clive_services
     clive_service_discovery     = aws_service_discovery_service.clive_services
   }
+  sensitive = true
 }
