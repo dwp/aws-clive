@@ -8,7 +8,7 @@ output "security_configuration" {
   value = aws_emr_security_configuration.ebs_emrfs_em
 }
 
-resource "aws_s3_bucket_object" "cluster" {
+resource "aws_s3_object" "cluster" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/aws_clive/cluster.yaml"
   content = templatefile("${path.module}/cluster_config/cluster.yaml.tpl",
@@ -24,7 +24,7 @@ resource "aws_s3_bucket_object" "cluster" {
   )
 }
 
-resource "aws_s3_bucket_object" "instances" {
+resource "aws_s3_object" "instances" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/aws_clive/instances.yaml"
   content = templatefile("${path.module}/cluster_config/instances.yaml.tpl",
@@ -50,7 +50,7 @@ resource "aws_s3_bucket_object" "instances" {
 }
 
 
-resource "aws_s3_bucket_object" "steps" {
+resource "aws_s3_object" "steps" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/aws_clive/steps.yaml"
   content = templatefile("${path.module}/cluster_config/steps.yaml.tpl",
@@ -63,7 +63,7 @@ resource "aws_s3_bucket_object" "steps" {
 }
 
 
-resource "aws_s3_bucket_object" "configurations" {
+resource "aws_s3_object" "configurations" {
   bucket = data.terraform_remote_state.common.outputs.config_bucket.id
   key    = "emr/aws_clive/configurations.yaml"
   content = templatefile("${path.module}/cluster_config/configurations.yaml.tpl",
