@@ -7,12 +7,10 @@ locals {
     },
   )
   common_tags = {
-    Environment  = local.environment
-    Application  = local.emr_cluster_name
-    CreatedBy    = "terraform"
-    Owner        = "dataworks platform"
-    Persistence  = "Ignore"
-    AutoShutdown = "False"
+    DWX_Environment = local.environment
+    DWX_Application = local.emr_cluster_name
+    Persistence     = "Ignore"
+    AutoShutdown    = "False"
   }
   env_certificate_bucket = "dw-${local.environment}-public-certificates"
   mgt_certificate_bucket = "dw-${local.management_account[local.environment]}-public-certificates"
