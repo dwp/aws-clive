@@ -16,15 +16,6 @@ resources:
     webhook_token: ((dataworks.concourse_github_webhook_token))
     check_every: 5m
 
-  - name: aws-clive-dev
-    type: git
-    source:
-      branch: fix-clive-emr-subnet
-      uri: https://github.com/dwp/aws-clive.git
-      access_token: ((dataworks-secrets.concourse_github_pat))
-    webhook_token: ((dataworks.concourse_github_webhook_token))
-    check_every: 5m
-
   - name: aws-clive-pipeline
     type: git
     source:
