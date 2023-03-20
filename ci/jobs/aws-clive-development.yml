@@ -7,6 +7,8 @@ jobs:
             resource: meta-development
           - get: aws-clive
             trigger: true
+          - get: aws-clive-dev
+            trigger: true
           - get: emr-launcher-release
             version: { tag: ((emr-launcher-version.development)) }
             trigger: true
@@ -21,15 +23,23 @@ jobs:
         config:
           params:
             AWS_ACC: ((aws_account.development))
+        input_mapping:
+          aws-clive: aws-clive-dev
       - .: (( inject meta.plan.terraform-apply ))
         params:
           TF_WORKSPACE: default
+        input_mapping:
+          aws-clive: aws-clive-dev
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: default
+        input_mapping:
+          aws-clive: aws-clive-dev
       - .: (( inject meta.plan.e2e-tests))
         config:
           params:
             TF_WORKSPACE: default
             AWS_ACC: ((aws_account.development))
             AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+        input_mapping:
+          aws-clive: aws-clive-dev
