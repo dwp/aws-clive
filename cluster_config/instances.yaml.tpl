@@ -5,11 +5,10 @@ Instances:
   - "${add_master_sg}"
   AdditionalSlaveSecurityGroups:
   - "${add_slave_sg}"
-  Ec2SubnetIds: <<-EOT
+  Ec2SubnetIds:
   %{for subnet_id in subnet_ids ~}
   - ${subnet_id}
-  %{endfor ~}
-  EOT
+  %{endfor ~} 
   EmrManagedMasterSecurityGroup: "${master_sg}"
   EmrManagedSlaveSecurityGroup: "${slave_sg}"
   ServiceAccessSecurityGroup: "${service_access_sg}"
