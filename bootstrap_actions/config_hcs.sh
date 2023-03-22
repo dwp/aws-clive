@@ -56,8 +56,6 @@
 
     log_wrapper_message "Configuring tenable agent"
 
-    /opt/nessus_agent/sbin/nessuscli agent link --key=$TENABLE_LINKING_KEY \ 
-      --cloud --groups=$TECHNICALSERVICE_$ENVIRONMENT,TVAT \ 
-      --proxy-host=$PROXY --proxy-port=3128
+    /opt/nessus_agent/sbin/nessuscli agent link --key=$TENABLE_LINKING_KEY --cloud --groups=$TECHNICALSERVICE_$ENVIRONMENT,TVAT --proxy-host=$PROXY --proxy-port=3128
 
 )   >> /var/log/aws-clive/config_hcs.log 2>&1
