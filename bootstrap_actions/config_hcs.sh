@@ -29,7 +29,7 @@
         region=${region%?}
 
         # retrieve tags
-        tagValues=$(aws ec2 describe-tags --use-default-roles --output text --region "$region" "${filterParams[@]}")
+        tagValues=$(aws ec2 describe-tags --output text --region "$region" "${filterParams[@]}")
         if [ $? -ne 0 ]; then
             echo >&2 "Error retrieving tag value."
             exit 4
