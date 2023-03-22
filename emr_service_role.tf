@@ -43,18 +43,6 @@ data "aws_iam_policy_document" "emr_capacity_reservations" {
   }
 }
 
-data "aws_iam_policy_document" "describe_tags" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "ec2:DescribeTags",
-    ]
-    resources = [
-      "*"
-    ]
-  }
-}
-
 resource "aws_iam_role" "aws_clive_emr_service" {
   name               = "aws_clive_emr_service"
   assume_role_policy = data.aws_iam_policy_document.emr_assume_role.json
@@ -79,12 +67,6 @@ resource "aws_iam_policy" "emr_capacity_reservations" {
   policy      = data.aws_iam_policy_document.emr_capacity_reservations.json
 }
 
-resource "aws_iam_policy" "describe_tags" {
-  name        = "aws_cliveDescribeTags"
-  description = "Allows the getting of tags for scripts"
-  policy      = data.aws_iam_policy_document.describe_tags.json
-}
-
 resource "aws_iam_role_policy_attachment" "emr_capacity_reservations" {
   role       = aws_iam_role.aws_clive_emr_service.name
   policy_arn = aws_iam_policy.emr_capacity_reservations.arn
@@ -95,7 +77,3 @@ resource "aws_iam_role_policy_attachment" "aws_clive_emr_service_ebs_cmk" {
   policy_arn = aws_iam_policy.aws_clive_ebs_cmk_encrypt.arn
 }
 
-resource "aws_iam_role_policy_attachment" "describe_tags" {
-  role       = aws_iam_role.aws_clive_emr_service.name
-  policy_arn = aws_iam_policy.describe_tags.arn
-}
