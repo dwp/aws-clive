@@ -10,8 +10,10 @@
 
     log_wrapper_message "Populate tags..."
 
+    
+
     export TECHNICALSERVICE="DataWorks"
-    export ENVIRONMENT=$environment
+    export ENVIRONMENT=$1
 
     echo $TECHNICALSERVICE
     echo $ENVIRONMENT
