@@ -16,16 +16,8 @@
     echo $TECHNICALSERVICE
     echo $ENVIRONMENT
 
-    log_wrapper_message "Exporting proxy"
-
-    if [[ "$ENVIRONMENT" == "Dev" || "$ENVIRONMENT" == "DT_Tooling" ]]; then
-        export PROXY=$2
-      else
-        export PROXY=$2
-    fi
-
     log_wrapper_message "Configuring tenable agent"
 
-    sudo /opt/nessus_agent/sbin/nessuscli agent link --key=$TENABLE_LINKING_KEY --cloud --groups=$TECHNICALSERVICE_$ENVIRONMENT,TVAT --proxy-host=$PROXY --proxy-port=$3
+    sudo /opt/nessus_agent/sbin/nessuscli agent link --key="$TENABLE_LINKING_KEY" --cloud --groups="$TECHNICALSERVICE_""$ENVIRONMENT",TVAT --proxy-host="$2" --proxy-port="$3"
 
 )   >> /var/log/aws-clive/config_hcs.log 2>&1
