@@ -3,6 +3,7 @@
 (
     # Import the logging functions
     source /opt/emr/logging.sh
+    source /etc/environment
 
     function log_wrapper_message() {
         log_aws_clive_message "$${1}" "config_hcs.sh" "$${PID}" "$${@:2}" "Running as: ,$USER"
