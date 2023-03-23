@@ -14,8 +14,8 @@ BootstrapActions:
     Path: "file:/var/ci/config_hcs.sh"
     Args: [
       "${environment}", 
-      "${proxy_https_host}",
-      "${proxy_https_port}"
+      "${proxy_http_host}",
+      "${proxy_http_port}"
     ]
 - Name: "emr-setup"
   ScriptBootstrapAction:
