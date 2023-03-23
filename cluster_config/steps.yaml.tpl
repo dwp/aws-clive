@@ -12,7 +12,7 @@ BootstrapActions:
 - Name: "config_hcs"
   ScriptBootstrapAction:
     Path: "file:/var/ci/config_hcs.sh"
-    Args:["${environment}"]
+    Args: ["${environment}"]
 - Name: "emr-setup"
   ScriptBootstrapAction:
     Path: "file:/var/ci/emr-setup.sh"
