@@ -11,10 +11,10 @@
     log_wrapper_message "Populate tags..."
     
     export TECHNICALSERVICE="DataWorks"
-    export ENVIRONMENT=$1
+    export ENVIRONMENT="$1"
 
-    echo $TECHNICALSERVICE
-    echo $ENVIRONMENT
+    echo "$TECHNICALSERVICE"
+    echo "$ENVIRONMENT"
 
     log_wrapper_message "Configuring tenable agent"
 
