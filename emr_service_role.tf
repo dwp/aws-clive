@@ -76,3 +76,4 @@ resource "aws_iam_role_policy_attachment" "aws_clive_emr_service_ebs_cmk" {
   role       = aws_iam_role.aws_clive_emr_service.name
   policy_arn = aws_iam_policy.aws_clive_ebs_cmk_encrypt.arn
 }
+
