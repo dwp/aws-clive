@@ -20,6 +20,11 @@ resource "aws_s3_object" "cluster" {
       instance_profile       = aws_iam_instance_profile.aws_clive.arn
       security_configuration = aws_emr_security_configuration.ebs_emrfs_em.id
       emr_release            = var.emr_release[local.environment]
+      dwx_environment_tag_value  = local.common_repo_tags.Environment
+      application_tag_value      = data.aws_default_tags.provider_tags.tags.Application
+      function_tag_value         = data.aws_default_tags.provider_tags.tags.Function
+      business_project_tag_value = data.aws_default_tags.provider_tags.tags.Business-Project
+      environment_tag_value      = data.aws_default_tags.provider_tags.tags.Environment
     }
   )
 }
