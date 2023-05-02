@@ -148,7 +148,7 @@ locals {
     development = "2688"
     qa          = "2688"
     integration = "2688"
-    preprod     = "15360"
+    preprod     = "7168"
     production  = "15360"
   }
 
@@ -157,7 +157,7 @@ locals {
     development = "-Xmx2150m"
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
-    preprod     = "-Xmx12288m"
+    preprod     = "-Xmx5734m"
     production  = "-Xmx12288m"
   }
 
@@ -166,17 +166,17 @@ locals {
     development = "896"
     qa          = "896"
     integration = "896"
-    preprod     = "5068"
+    preprod     = "2365"
     production  = "5068"
   }
 
-  hive_bytes_per_reducer = {
-    development = "13421728"
-    qa          = "13421728"
-    integration = "13421728"
-    preprod     = "13421728"
-    production  = "13421728"
-  }
+  #hive_bytes_per_reducer = {
+  #  development = "13421728"
+  #  qa          = "13421728"
+  #  integration = "13421728"
+  #  preprod     = "13421728"
+  #  production  = "13421728"
+  #}
 
   tez_runtime_unordered_output_buffer_size_mb = {
     development = "268"
@@ -199,7 +199,7 @@ locals {
     development = "1342177"
     qa          = "1342177"
     integration = "1342177"
-    preprod     = "52428800"
+    preprod     = "16777216"
     production  = "52428800"
   }
 
@@ -215,7 +215,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "12288"
+    preprod     = "7168"
     production  = "12288"
   }
 
@@ -224,7 +224,7 @@ locals {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "8196"
+    preprod     = "5734"
     production  = "8196"
   }
 
@@ -233,48 +233,48 @@ locals {
     development = "-Xmx819m"
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
-    preprod     = "-Xmx6556m"
+    preprod     = "-Xmx5734m"
     production  = "-Xmx6556m"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
-  llap_daemon_yarn_container_mb = {
-    development = "57344"
-    qa          = "57344"
-    integration = "57344"
-    preprod     = "385024"
-    production  = "385024"
-  }
+  #llap_daemon_yarn_container_mb = {
+  #  development = "57344"
+  #  qa          = "57344"
+  #  integration = "57344"
+  #  preprod     = "385024"
+  #  production  = "385024"
+  #}
 
-  llap_number_of_instances = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "20"
-    production  = "29"
-  }
+  #llap_number_of_instances = {
+  #  development = "5"
+  #  qa          = "5"
+  #  integration = "5"
+  #  preprod     = "20"
+  #  production  = "29"
+  #}
 
-  map_reduce_vcores_per_node = {
-    development = "5"
-    qa          = "5"
-    integration = "5"
-    preprod     = "15"
-    production  = "15"
-  }
+  #map_reduce_vcores_per_node = {
+  #  development = "5"
+  #  qa          = "5"
+  #  integration = "5"
+  #  preprod     = "15"
+  #  production  = "15"
+  #}
 
-  map_reduce_vcores_per_task = {
-    development = "1"
-    qa          = "1"
-    integration = "1"
-    preprod     = "5"
-    production  = "5"
-  }
+  #map_reduce_vcores_per_task = {
+  #  development = "1"
+  #  qa          = "1"
+  #  integration = "1"
+  #  preprod     = "5"
+  #  production  = "5"
+  #}
 
   hive_max_reducers = {
     development = "1099"
     qa          = "1099"
     integration = "1099"
-    preprod     = "3000"
+    preprod     = "2000"
     production  = "3000"
   }
 

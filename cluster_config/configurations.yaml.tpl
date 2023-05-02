@@ -67,11 +67,6 @@ Configurations:
     "hive.server2.tez.default.queues": "appqueue"
     "hive.server2.tez.sessions.per.default.queue": "${hive_tez_sessions_per_queue}"
     "hive.server2.tez.initialize.default.sessions": "true"
-    "hive.exec.reducers.bytes.per.reducer": "${hive_bytes_per_reducer}"
-    "hive.llap.enabled": "true"
-    "hive.llap.percent-allocation": "0.8"
-    "hive.llap.num-instances": "${llap_number_of_instances}"
-    "hive.llap.daemon.yarn.container.mb": "${llap_daemon_yarn_container_mb}"
     "hive.blobstore.optimizations.enabled": "true"
     "hive.blobstore.use.blobstore.as.scratchdir": "false"
     "hive.exec.input.listing.max.threads": "2"
@@ -98,11 +93,8 @@ Configurations:
 
 - Classification: "mapred-site"
   Properties:
-    "mapreduce.map.resource.vcores": "${map_reduce_vcores_per_task}"
-    "mapreduce.reduce.resource.vcores": "${map_reduce_vcores_per_task}"
     "mapred.job.queue.name": "mrqueue"
     "mapreduce.job.queuename": "mrqueue"
-    "yarn.app.mapreduce.am.resource.vcores": "${map_reduce_vcores_per_node}"
     "mapred.reduce.tasks": "-1"
 
 - Classification: "tez-site"
