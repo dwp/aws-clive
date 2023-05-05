@@ -149,7 +149,7 @@ locals {
     qa          = "2688"
     integration = "2688"
     preprod     = "4096"
-    production  = "15360"
+    production  = "4096"
   }
 
   # 0.8 of hive_tez_container_size
@@ -158,7 +158,7 @@ locals {
     qa          = "-Xmx2150m"
     integration = "-Xmx2150m"
     preprod     = "-Xmx3276m"
-    production  = "-Xmx12288m"
+    production  = "-Xmx3276m"
   }
 
   # 0.33 of hive_tez_container_size
@@ -167,7 +167,7 @@ locals {
     qa          = "896"
     integration = "896"
     preprod     = "1351"
-    production  = "5068"
+    production  = "1351"
   }
 
   #hive_bytes_per_reducer = {
@@ -183,7 +183,7 @@ locals {
     qa          = "268"
     integration = "268"
     preprod     = "409"
-    production  = "2148"
+    production  = "409"
   }
 
   # 0.4 of hive_tez_container_size
@@ -192,7 +192,7 @@ locals {
     qa          = "1075"
     integration = "1075"
     preprod     = "1638"
-    production  = "6144"
+    production  = "1638"
   }
 
   tez_grouping_min_size = {
@@ -200,7 +200,7 @@ locals {
     qa          = "1342177"
     integration = "1342177"
     preprod     = "16777216"
-    production  = "52428800"
+    production  = "16777216"
   }
 
   tez_grouping_max_size = {
@@ -216,7 +216,7 @@ locals {
     qa          = "1024"
     integration = "1024"
     preprod     = "4096"
-    production  = "12288"
+    production  = "4096"
   }
 
   # 0.8 of hive_tez_container_size
@@ -225,7 +225,7 @@ locals {
     qa          = "1024"
     integration = "1024"
     preprod     = "3276"
-    production  = "8196"
+    production  = "3276"
   }
 
   # 0.8 of tez_am_resource_memory_mb
@@ -234,7 +234,7 @@ locals {
     qa          = "-Xmx819m"
     integration = "-Xmx819m"
     preprod     = "-Xmx3276m"
-    production  = "-Xmx6556m"
+    production  = "-Xmx3276m"
   }
 
   // This value should be the same as yarn.scheduler.maximum-allocation-mb
@@ -275,7 +275,7 @@ locals {
     qa          = "1099"
     integration = "1099"
     preprod     = "2000"
-    production  = "3000"
+    production  = "2000"
   }
 
   hive_tez_sessions_per_queue = {
