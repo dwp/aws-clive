@@ -31,6 +31,7 @@
     fi
 
     if [ "$install_trend" = true ]; then
+        sudo su <<EOF
         echo Installing and configuring Trend Micro Agent
         # PROXY_ADDR_PORT and PROXY_CREDENTIAL define proxy for software download and Agent activation
         PROXY_ADDR_PORT="$2:$3"
@@ -109,6 +110,7 @@
         /opt/ds_agent/dsa_control -a $ACTIVATIONURL "tenantID:${12}" "token:${13}" "policyid:${14}"
         # Checks for successful installation
         sudo /opt/ds_agent/dsa_query -c "GetComponentInfo" -r "au" "AM.mode"
+EOF
     else
         echo "Flag set to skip Trend installation"
     fi
