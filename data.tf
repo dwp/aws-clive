@@ -57,3 +57,6 @@ resource "aws_iam_policy" "aws_clive_write_data" {
   policy      = data.aws_iam_policy_document.aws_clive_write_data.json
 }
 
+data "aws_ec2_managed_prefix_list" "list" {
+  name = "dwp-*-aws-cidrs-*"
+}
