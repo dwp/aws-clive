@@ -31,7 +31,7 @@
     fi
 
     if [ "$install_trend" = true ]; then
-        sudo su <<EOF
+
         echo Installing and configuring Trend Micro Agent
         # PROXY_ADDR_PORT and PROXY_CREDENTIAL define proxy for software download and Agent activation
         PROXY_ADDR_PORT="$2:$3"
@@ -47,10 +47,10 @@
         linuxPlatform='';
         isRPM='';
 
-        if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-            echo You are not running as the root user.  Please try again with root privileges.;
-            exit 1;
-        fi;
+        # if [[ $(/usr/bin/id -u) -ne 0 ]]; then
+        #     echo You are not running as the root user.  Please try again with root privileges.;
+        #     exit 1;
+        # fi;
 
         if ! type curl >/dev/null 2>&1; then
             echo "Please install CURL before running this script."
@@ -87,10 +87,10 @@
         echo Installing agent package...
         rc=1
         if [[ $isRPM == 1 && -s /tmp/agent.rpm ]]; then
-            rpm -ihv /tmp/agent.rpm
+            sudo rpm -ihv /tmp/agent.rpm
             rc=$?
         elif [[ -s /tmp/agent.deb ]]; then
-            dpkg -i /tmp/agent.deb
+            sudo dpkg -i /tmp/agent.deb
             rc=$?
         else
             echo Failed to download the agent package. Please make sure the package is imported in the Workload Security Manager
@@ -104,13 +104,12 @@
         echo Installed the agent package successfully
 
         sleep 15
-        /opt/ds_agent/dsa_control -r
-        /opt/ds_agent/dsa_control -x dsm_proxy://"$PROXY_ADDR_PORT"/
-        /opt/ds_agent/dsa_control -y relay_proxy://"$RELAY_PROXY_ADDR_PORT"/
-        /opt/ds_agent/dsa_control -a $ACTIVATIONURL "tenantID:${12}" "token:${13}" "policyid:${14}"
+        sudo /opt/ds_agent/dsa_control -r
+        sudo /opt/ds_agent/dsa_control -x dsm_proxy://"$PROXY_ADDR_PORT"/
+        sudo /opt/ds_agent/dsa_control -y relay_proxy://"$RELAY_PROXY_ADDR_PORT"/
+        sudo /opt/ds_agent/dsa_control -a $ACTIVATIONURL "tenantID:${12}" "token:${13}" "policyid:${14}"
         # Checks for successful installation
         sudo /opt/ds_agent/dsa_query -c "GetComponentInfo" -r "au" "AM.mode"
-EOF
     else
         echo "Flag set to skip Trend installation"
     fi
