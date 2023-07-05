@@ -34,7 +34,7 @@
         # Add VPC IP's to local host file with local DNS config for Trend
         echo Adding VPC Endpoint IP to hosts file
         vpce_ip1=$(dig +short "$2" | sed -n 1p | grep '^[.0-9]*$')
-        sed -i -e '$a'"$vpce_ip1"'  'dwx-squid-proxy.local /etc/hosts
+        sudo sed -i -e '$a'"$vpce_ip1"'  'dwx-squid-proxy.local /etc/hosts
 
         echo Installing and configuring Trend Micro Agent
         # PROXY_ADDR_PORT and PROXY_CREDENTIAL define proxy for software download and Agent activation
