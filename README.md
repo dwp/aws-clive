@@ -1,3 +1,5 @@
+# DO NOT USE - MIGRATED TO GITLAB
+
 # aws-clive
 
 After cloning this repo, please generate `terraform.tf` and `terraform.tfvars` files:  
